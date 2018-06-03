@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1527860125 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
+1528031617 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
 	<iostream>
 	"IncidentMatrix.h"
+	"NeighbourList.h"
 
 1527709116 source:q:\studia\sdizo\projektpierwszy\grafy\src\dijkstra.cpp
 	<list>
@@ -20,9 +21,19 @@
 
 1527860125 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
 
-1527873821 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528054925 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"NeighbourList.h"
-
-1527879170 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
+	<iostream>
+	<fstream>
+	<string>
+	<stdlib.h>
+	<istream>
+	<iomanip>
 	<list>
+	<vector>
+	<algorithm>
+
+1528030734 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
+	<list>
+	<vector>
 

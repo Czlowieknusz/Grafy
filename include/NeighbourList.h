@@ -5,9 +5,12 @@
 
 using namespace std;
 
-struct krawedz
+class krawedz
 {
+    public:
     int poczatek, koniec, waga;
+
+    krawedz(int, int, int);
 };
 
 class wierzcholek
@@ -17,6 +20,7 @@ class wierzcholek
     list<krawedz> sasiedzi;
 
     wierzcholek(int, list<krawedz>);
+    wierzcholek(int);
 };
 
 class NeighbourList
