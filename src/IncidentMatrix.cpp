@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 #include <istream>
+#include <iomanip>
 
 using namespace std;
 
@@ -22,7 +23,8 @@ IncidentMatrix::IncidentMatrix()
         getline(myfile, line);
         iloscKrawedzi = atoi(line.c_str());
 
-        macierz = new int* [rozmiar];
+        macierz = new int*[rozmiar];
+        tablicaWag = new int[rozmiar];
 
         /// Tworzenie wierszy macierzy
         for(int i =0; i<rozmiar; i++)
@@ -42,8 +44,9 @@ IncidentMatrix::IncidentMatrix()
             counter ++;
             if(counter == 3)
             {
-                macierz[buf[0]][krawedz] = buf[2];
-                macierz[buf[1]][krawedz] = (-1)*buf[2];
+                macierz[buf[0]][krawedz] = 1;
+                macierz[buf[1]][krawedz] = -1;
+                tablicaWag[krawedz] = buf[2];
                 krawedz++;
                 counter = 0;
             }
@@ -61,4 +64,25 @@ IncidentMatrix::~IncidentMatrix()
     for(int i =0; i<rozmiar; i++)
         delete[] macierz[i];
     delete[] macierz;
+    delete[] tablicaWag;
+}
+
+void IncidentMatrix::drukujMacierz()
+{
+    cout << endl;
+    cout << setw(5) << " ";
+    for(int j = 0; j< iloscKrawedzi; j++)
+    {
+        cout << setw(3) <<j;
+    }
+    cout << endl;
+    for(int i = 0; i<rozmiar; i++)
+    {
+        cout << setw(3) << "[" << i << "] ";
+        for(int j = 0; j < iloscKrawedzi; j++)
+        {
+            cout << setw(2) << macierz[i][j] << " ";
+        }
+        cout << endl;
+    }
 }

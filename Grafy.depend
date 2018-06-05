@@ -1,27 +1,34 @@
 # depslib dependency file v1.0
-1528031617 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
+1528123526 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
 	<iostream>
 	"IncidentMatrix.h"
 	"NeighbourList.h"
-
-1527709116 source:q:\studia\sdizo\projektpierwszy\grafy\src\dijkstra.cpp
-	<list>
+	"Kruskal.h"
 	"Dijkstra.h"
 
-1527709110 q:\studia\sdizo\projektpierwszy\grafy\include\dijkstra.h
-	<list>
+1528138836 source:q:\studia\sdizo\projektpierwszy\grafy\src\dijkstra.cpp
+	<vector>
+	<iostream>
+	"Dijkstra.h"
+	"IncidentMatrix.h"
+	<limits.h>
 
-1527936478 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528133039 q:\studia\sdizo\projektpierwszy\grafy\include\dijkstra.h
+	<list>
+	"IncidentMatrix.h"
+
+1528125432 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
 	<string>
 	<stdlib.h>
 	<istream>
+	<iomanip>
 
-1527860125 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
+1528124871 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
 
-1528054925 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528071145 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"NeighbourList.h"
 	<iostream>
 	<fstream>
@@ -36,4 +43,10 @@
 1528030734 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
 	<list>
 	<vector>
+
+1528123534 source:q:\studia\sdizo\projektpierwszy\grafy\src\kruskal.cpp
+	"Kruskal.h"
+	"NeighbourList.h"
+
+1528123472 q:\studia\sdizo\projektpierwszy\grafy\include\kruskal.h
 

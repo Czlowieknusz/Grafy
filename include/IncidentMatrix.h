@@ -9,6 +9,9 @@ class IncidentMatrix
         ~IncidentMatrix();
         int rozmiar, iloscKrawedzi;
         int** macierz;
+        int* tablicaWag;
+
+        void drukujMacierz();
 };
 
 #endif // INCIDENTMATRIX_H

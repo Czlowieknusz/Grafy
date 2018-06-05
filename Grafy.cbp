@@ -36,10 +36,12 @@
 		</Compiler>
 		<Unit filename="include/Dijkstra.h" />
 		<Unit filename="include/IncidentMatrix.h" />
+		<Unit filename="include/Kruskal.h" />
 		<Unit filename="include/NeighbourList.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Dijkstra.cpp" />
 		<Unit filename="src/IncidentMatrix.cpp" />
+		<Unit filename="src/Kruskal.cpp" />
 		<Unit filename="src/NeighbourList.cpp" />
 		<Extensions>
 			<code_completion />

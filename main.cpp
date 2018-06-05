@@ -1,13 +1,14 @@
 #include <iostream>
 #include "IncidentMatrix.h"
 #include "NeighbourList.h"
+#include "Kruskal.h"
+#include "Dijkstra.h"
 
 using namespace std;
 
 int main()
 {
     cout << "Hello world!" << endl;
-    IncidentMatrix iM;
-    NeighbourList nL;
+    Dijkstra dijkstra;
     return 0;
 }

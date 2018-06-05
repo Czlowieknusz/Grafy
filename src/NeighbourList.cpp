@@ -80,8 +80,9 @@ NeighbourList::NeighbourList()
         {
             for(kit = (*wit).sasiedzi.begin(); kit != (*wit).sasiedzi.end(); ++kit)
             {
-                cout << "[" << kit->poczatek << "]. Waga = " << kit->waga << ", koniec = " << kit->koniec << endl;
+                cout << "[" << kit->poczatek << "]. Waga = " << kit->waga << ", koniec = " << kit->koniec;
             }
+            cout << endl;
         }
 
         myfile.close();
