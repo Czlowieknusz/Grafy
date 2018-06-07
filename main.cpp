@@ -1,14 +1,12 @@
 #include <iostream>
-#include "IncidentMatrix.h"
-#include "NeighbourList.h"
-#include "Kruskal.h"
-#include "Dijkstra.h"
+#include "Menu.h"
 
 using namespace std;
 
 int main()
 {
     cout << "Hello world!" << endl;
-    Dijkstra dijkstra;
+    Menu menu;
+    menu.AskForOption();
     return 0;
 }

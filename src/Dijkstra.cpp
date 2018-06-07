@@ -6,8 +6,8 @@
 
 Dijkstra::Dijkstra()
 {
-    IncidentMatrix iM;
-    findShortestWayMatrix(iM, 0);
+    //IncidentMatrix iM;
+    //findShortestWayMatrix(iM, 0);
 }
 
 Dijkstra::~Dijkstra()
@@ -21,10 +21,10 @@ void Dijkstra::findShortestWayMatrix(IncidentMatrix iM, int start)
     for(int i = 0; i<iM.iloscKrawedzi; i++)
         cout << "["<<i<<"] " << iM.tablicaWag[i] << endl;
     iM.drukujMacierz();
-    vector<int> pred(iM.rozmiar);
-    vector<int> dist(iM.rozmiar);
-    vector<bool> checked(iM.rozmiar);
-    for(int i = 0; i < iM.rozmiar; i++)
+    vector<int> pred(iM.iloscWierzcholkow);
+    vector<int> dist(iM.iloscWierzcholkow);
+    vector<bool> checked(iM.iloscWierzcholkow);
+    for(int i = 0; i < iM.iloscWierzcholkow; i++)
     {
         pred[i] = -1;
         dist[i] = INT_MAX;
@@ -33,11 +33,11 @@ void Dijkstra::findShortestWayMatrix(IncidentMatrix iM, int start)
 
     dist[start] = 0;
 
-    for(int i = 0; i<iM.rozmiar; i++)
+    for(int i = 0; i<iM.iloscWierzcholkow; i++)
     {
         int indeksWierzcholka;
         int mindist = INT_MAX;
-        for (int j =0; j<iM.rozmiar; j++)
+        for (int j =0; j<iM.iloscWierzcholkow; j++)
         {
             if(!checked[j] &&dist[j] < mindist)
             {
@@ -55,7 +55,7 @@ void Dijkstra::findShortestWayMatrix(IncidentMatrix iM, int start)
         {
             if(iM.macierz[indeksWierzcholka][j] == 1)
             {
-                for(int k = 0; k < iM.rozmiar; k ++)
+                for(int k = 0; k < iM.iloscWierzcholkow; k ++)
                 {
                     if(iM.macierz[k][j] == -1 && !checked[k])
                     {

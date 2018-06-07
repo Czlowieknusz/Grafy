@@ -1,12 +1,9 @@
 # depslib dependency file v1.0
-1528123526 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
+1528214581 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
 	<iostream>
-	"IncidentMatrix.h"
-	"NeighbourList.h"
-	"Kruskal.h"
-	"Dijkstra.h"
+	"Menu.h"
 
-1528138836 source:q:\studia\sdizo\projektpierwszy\grafy\src\dijkstra.cpp
+1528215167 source:q:\studia\sdizo\projektpierwszy\grafy\src\dijkstra.cpp
 	<vector>
 	<iostream>
 	"Dijkstra.h"
@@ -17,7 +14,7 @@
 	<list>
 	"IncidentMatrix.h"
 
-1528125432 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528228204 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
@@ -25,8 +22,12 @@
 	<stdlib.h>
 	<istream>
 	<iomanip>
+	<vector>
+	<limits.h>
 
-1528124871 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
+1528216148 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
+	<fstream>
+	<list>
 
 1528071145 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"NeighbourList.h"
@@ -49,4 +50,32 @@
 	"NeighbourList.h"
 
 1528123472 q:\studia\sdizo\projektpierwszy\grafy\include\kruskal.h
+
+1528215215 source:q:\studia\sdizo\projektpierwszy\grafy\src\ford-bellman.cpp
+	"Ford-Bellman.h"
+	"IncidentMatrix.h"
+	<iostream>
+	<vector>
+
+1528214829 q:\studia\sdizo\projektpierwszy\grafy\include\ford-bellman.h
+	"IncidentMatrix.h"
+
+1528214963 q:\studia\sdizo\projektpierwszy\grafy\include\menu.h
+
+1528214811 source:q:\studia\sdizo\projektpierwszy\grafy\src\dane.cpp
+	"Dane.h"
+	<fstream>
+	<ctime>
+	<cstdlib>
+	<iostream>
+
+1528213531 q:\studia\sdizo\projektpierwszy\grafy\include\dane.h
+
+1528217498 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
+	"Menu.h"
+	"IncidentMatrix.h"
+	"NeighbourList.h"
+	<iostream>
+	<cstdlib>
+	"Dane.h"
 

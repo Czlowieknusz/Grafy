@@ -34,14 +34,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/Dijkstra.h" />
+		<Unit filename="include/Dane.h" />
 		<Unit filename="include/IncidentMatrix.h" />
-		<Unit filename="include/Kruskal.h" />
+		<Unit filename="include/Menu.h" />
 		<Unit filename="include/NeighbourList.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Dijkstra.cpp" />
+		<Unit filename="src/Dane.cpp" />
 		<Unit filename="src/IncidentMatrix.cpp" />
-		<Unit filename="src/Kruskal.cpp" />
+		<Unit filename="src/Menu.cpp" />
 		<Unit filename="src/NeighbourList.cpp" />
 		<Extensions>
 			<code_completion />
