@@ -35,14 +35,20 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/Dane.h" />
+		<Unit filename="include/Disjoint_Union.h" />
 		<Unit filename="include/IncidentMatrix.h" />
+		<Unit filename="include/Krawedz.h" />
 		<Unit filename="include/Menu.h" />
 		<Unit filename="include/NeighbourList.h" />
+		<Unit filename="include/lista.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Dane.cpp" />
+		<Unit filename="src/Disjoint_Union.cpp" />
 		<Unit filename="src/IncidentMatrix.cpp" />
+		<Unit filename="src/Krawedz.cpp" />
 		<Unit filename="src/Menu.cpp" />
 		<Unit filename="src/NeighbourList.cpp" />
+		<Unit filename="src/lista.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

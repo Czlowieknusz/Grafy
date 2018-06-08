@@ -3,6 +3,8 @@
 
 #include <fstream>
 #include <list>
+#include <vector>
+#include "Krawedz.h"
 
 using namespace std;
 
@@ -21,10 +23,9 @@ class IncidentMatrix
         void drukujMacierz();
         void menu();
         void stworzMacierz();       // dane z pliku
-        void KruskalMST();
-        int resize(list<int>);    // pomocnicza metoda do Kruskala
-        void primMST(int);      // alg. Prima
-        void nastepnaKrawedz(list<int>&, bool*, bool&); // metoda pomocnicza do alg. Prima
+        bool KruskalMST();
+        bool primMST(int);      // alg. Prima
+        Krawedz* nastepnaKrawedz(bool*); // metoda pomocnicza do alg. Prima
         void dijkstra(int);     // alg Dijkstry
         void fordBellman(int);  // alg. Forda-Bellmana
         void stworzLosowaMacierz();        // Tworzy losowy graf

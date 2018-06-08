@@ -7,6 +7,8 @@
 #include <iomanip>
 #include <vector>
 #include <limits.h>
+#include "Disjoint_Union.h"
+#include "lista.h"
 
 using namespace std;
 
@@ -112,7 +114,6 @@ void IncidentMatrix::menu()
     short exit = 0;
     short choice;
     //int index = 0;
-    int number = 0;
     while (exit == 0)
     {
         if (exit == 1)
@@ -159,7 +160,11 @@ void IncidentMatrix::menu()
                 cout << "Wczytaj dane do amcierzy!\n";
                 break;
             }
-            //primMST(0);
+            int wierzStart = 0;
+            cout << "Podaj wierzcholek startowy: ";
+            cin >> wierzStart;
+            cout << endl;
+            primMST(wierzStart);
             break;
         }
         case 4:
@@ -171,6 +176,7 @@ void IncidentMatrix::menu()
                 cout << "Wczytaj dane do amcierzy!\n";
                 break;
             }
+            cout << "Kurskal...\n\n";
             KruskalMST();
             break;
         }
@@ -333,8 +339,8 @@ void IncidentMatrix::fordBellman(int start)
         {
             for(int x = 0; x < iloscKrawedzi; x++)
                 if((macierzPomocnicza[x][0] == j) && (dist[macierzPomocnicza[x][1]] > (dist[j] + macierzPomocnicza[x][2])))
-            {
-                if(dist[j] != INT_MAX)
+                {
+                    if(dist[j] != INT_MAX)
                     {
                         // zmiana w tablicy
                         zmieniony = false;
@@ -343,7 +349,7 @@ void IncidentMatrix::fordBellman(int start)
                         // poprzednikiem sasiada bedzie wierzcholek j
                         pred[macierzPomocnicza[x][1]] = j;
                     }
-            }
+                }
             if(jestCykl && (j == iloscWierzcholkow - 1))
             {
                 j = -1;
@@ -352,7 +358,7 @@ void IncidentMatrix::fordBellman(int start)
         }
         if(zmieniony)
             maxint = 0;
-        if(maxint = 0)
+        if(maxint == 0)
             break;
     }
     for(int i = 0; i <iloscWierzcholkow; i++)
@@ -367,29 +373,22 @@ void IncidentMatrix::fordBellman(int start)
         }
     }
     if(jestCykl)
-        {
+    {
         cout << endl << "Cykl ujemny lub niedostepny wierzcholek" << endl;
         return;
-        }
+    }
     delete[] pred;
     delete[] dist;
 }
 
-void IncidentMatrix::KruskalMST()
+bool IncidentMatrix::KruskalMST()
 {
     int p = 0;
     int k = 0;
     int w = 0;
-    bool czyPelne = true;
-    for(int i = 0; i<iloscKrawedzi; i++)
-        wpisane[i] = -1;
-
-    int licznik = 0;
-    short minVal = 0;
-    bool nieBylo = true;
+    // Sortowanie
     for(int j = 0; j<iloscKrawedzi; j++)
     {
-        nieBylo = true;
         for(int i = j; i < iloscKrawedzi; i++)
         {
             if(macierzPomocnicza[i][2] < macierzPomocnicza[j][2])
@@ -406,6 +405,84 @@ void IncidentMatrix::KruskalMST()
             }
         }
     }
+    /*
+        cout << "Drukuje macierz..." << endl << endl;
+        for(int i = 0; i < iloscKrawedzi; i ++)
+        {
+            for ( int j = 0; j < 3; j++)
+                cout << " " << macierzPomocnicza[i][j];
+            cout << endl;
+        }*/
 
+    Lista test;
+    for(int i = 0; i < iloscKrawedzi; i++)
+    {
+        Krawedz* k = new Krawedz(macierzPomocnicza[i][0],macierzPomocnicza[i][1],macierzPomocnicza[i][2]);
+        test.dodajNaKoniec(k);
+    }
 
+    Disjoint_Union disUnion(iloscWierzcholkow);
+
+    Lista drzewo;
+
+    for(int i = 0; i < iloscWierzcholkow; i++)
+        disUnion.makeSet(i);
+
+    for(int i = 1; i < iloscWierzcholkow; i++)
+    {
+        Krawedz* k = new Krawedz;
+        Krawedz* iter = test.pierwsza;
+
+        do
+        {
+            if(iter == NULL)
+            {
+                cout << "Nie da się utworzyć MST"<<endl;
+                return false;
+            }
+            *k = *iter;
+            iter = iter->nastepna;
+            test.usunPierwszy();
+        }
+        while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
+        drzewo.dodajNaKoniec(k);
+        disUnion.unionSets(*k);
+    }
+
+    cout << "Minimalne drzewo rozpinające:"<<endl;
+    drzewo.wydrukujListe();
+    return true;
+}
+
+bool IncidentMatrix::primMST(int start)
+{
+    bool* odwiedzone= new bool[iloscWierzcholkow] ;
+    int licznikTrue = 0;
+
+    for(int i = 0; i < iloscWierzcholkow; i++)
+    {
+        odwiedzone[i] = false;
+        //cout << odwiedzone[i] << " ";
+    }
+
+    odwiedzone[start] = true;
+    Lista drzewo;
+
+    while(licznikTrue!=iloscWierzcholkow)
+    {
+        licznikTrue++;
+    }
+    Krawedz* k = nastepnaKrawedz(odwiedzone);
+
+    return false;
+}
+
+Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone)
+{
+    Krawedz* k;
+    for(int i = 0; i<iloscWierzcholkow; i++)
+    {
+
+    }
+    return k;
 }
