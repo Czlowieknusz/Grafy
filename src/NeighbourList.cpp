@@ -34,14 +34,14 @@ wierzcholek::wierzcholek(int nr)
 }
 */
 
-NeighbourList::NeighbourList()
+NeighbourList::NeighbourList(int wybor)
 {
     tablicaKrawedzi = NULL;
     iloscWierzcholkow = iloscKrawedzi = 0;
-    stworzListeSasiedztw();
+    stworzListeSasiedztw(wybor);
 }
 
-void NeighbourList::stworzListeSasiedztw()
+void NeighbourList::stworzListeSasiedztw(int wybor)
 {
     /// Odczytanie krawêdzi -> do dodania
     string line;
@@ -69,15 +69,15 @@ void NeighbourList::stworzListeSasiedztw()
         /// Poczatek - Koniec - Waga
         int buf[3], counter = 0;
         int skierowany;
-        cout << "Graf skierowany [0] czy nieskierowany [inna]? ";
-        cin >> skierowany;
+       // cout << "Graf skierowany [0] czy nieskierowany [inna]? ";
+        //cin >> skierowany;
         while(getline(myfile, line, ' '))
         {
             buf[counter] = atoi(line.c_str());
             counter ++;
             if(counter == 3)
             {
-                if(skierowany == 0)
+                if(wybor == 0)
                 {
                     Krawedz* k = new Krawedz(buf[0], buf[1], buf[2]);
                     tablicaKrawedzi[buf[0]].dodajNaKoniec(k);
@@ -150,7 +150,7 @@ void NeighbourList::menu()
         case 1:
         {
             cout << "Wczytuje dane z pliku: 'dane.txt'" << endl;
-            stworzListeSasiedztw();
+            stworzListeSasiedztw(0);
             cout << endl;
             break;
         }

@@ -497,6 +497,8 @@ bool IncidentMatrix::primMST(int start)
         wskDisUnion->unionSets(*k);
     }
     drzewo.wydrukujListe();
+    if(drzewo.rozmiar<iloscWierzcholkow-1)
+        cout << "Nie da sie utworzyc MST."<<endl;
     delete wskDisUnion;
     delete[] odwiedzone;
     return false;
@@ -557,7 +559,7 @@ Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUn
         i++;
     }
         //krawedzie.wydrukujListe();
-    Krawedz* zwracana;
+    Krawedz* zwracana = new Krawedz(-1,-1,INT_MAX);
 
     cout << "Przed Wagami..."<<endl;
     for(int i = 0; i<krawedzie.rozmiar; i++)
@@ -576,4 +578,9 @@ Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUn
     k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
     k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
     return k;
+}
+
+void IncidentMatrix::stworzLosowaMacierz(int ilW; int ilK)
+{
+
 }

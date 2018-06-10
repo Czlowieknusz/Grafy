@@ -12,9 +12,9 @@ class NeighbourList
         int iloscWierzcholkow, iloscKrawedzi;
         Lista* tablicaKrawedzi;
         Krawedz* p,* r;
-        NeighbourList();
+        NeighbourList(int);
         ~NeighbourList();
-        void stworzListeSasiedztw();
+        void stworzListeSasiedztw(int);
         void drukujListe();
         void menu();
         bool PrimMST(int);

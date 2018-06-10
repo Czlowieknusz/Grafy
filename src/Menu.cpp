@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "Dane.h"
+#include "Testy.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ void Menu::AskForOption() {
 			cout << "1. Macierz indykacji.\n";
 			cout << "2. Lista nastepnikow.\n";
 			cout << "5. Wygeneruj nowe dane. \n";
-			//cout << "9. Rozpocznij testy.\n";
+			cout << "9. Rozpocznij testy.\n";
 			cout << "Aby wyjsc wpisz cokolwiek innego. \n";
 			cin >> opcja;
 			if (!cin) {
@@ -41,7 +42,7 @@ void Menu::AskForOption() {
 			}
 			case 2://Lista
 			{
-				NeighbourList lis;
+				NeighbourList lis(0);
 				lis.menu();
 				break;
 			}
@@ -57,7 +58,13 @@ void Menu::AskForOption() {
 				data.stworzDane();
 				break;
 			}
-
+            case 9:
+            {
+                Testy test;
+                cout << "Rozpoczynam testy..."<<endl;
+                test.dijkstraMatrix();
+                break;
+            }
 			default:
 				cout << "Zla opcja.";
 				exit(1000);
