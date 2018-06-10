@@ -296,3 +296,11 @@ void ListaInt::wydrukujListe()
 		aktualnyElement = aktualnyElement->nastepny;
 	}
 }
+
+int ListaInt::zwrocElement(int pozycja)
+{
+    aktualnyElement = pierwszyElement;
+    for(int i = 0; i < pozycja; i++)
+        aktualnyElement= aktualnyElement->nastepny;
+    return aktualnyElement->wartosc;
+}

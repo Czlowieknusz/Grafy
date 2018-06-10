@@ -2,8 +2,6 @@
 #define INCIDENTMATRIX_H
 
 #include <fstream>
-#include <list>
-#include <vector>
 #include "Disjoint_Union.h"
 #include "Krawedz.h"
 #include "lista.h"

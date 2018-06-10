@@ -19,6 +19,8 @@ public:
 
 	   	void dodajNaKoniec(int watosc);
 
+	   	int zwrocElement(int pozycja);
+
 	   	void wydrukujListe();
 
 	   	void usunPierwszy();

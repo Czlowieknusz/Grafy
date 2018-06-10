@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <istream>
 #include <iomanip>
-#include <vector>
 #include <limits.h>
 #include "Disjoint_Union.h"
 #include "lista.h"
+#include "listaInt.h"
 
 using namespace std;
 
@@ -243,9 +243,10 @@ void IncidentMatrix::dijkstra(int start)
     for(int i = 0; i<iloscKrawedzi; i++)
         cout << "["<<i<<"] " << tablicaWag[i] << endl;
     drukujMacierz();*/
-    vector<int> pred(iloscWierzcholkow);
-    vector<int> dist(iloscWierzcholkow);
-    vector<bool> checked(iloscWierzcholkow);
+    int* pred = new int[iloscWierzcholkow];
+    int* dist = new int[iloscWierzcholkow];
+    bool* checked = new bool[iloscWierzcholkow];
+
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         pred[i] = -1;
@@ -255,11 +256,11 @@ void IncidentMatrix::dijkstra(int start)
 
     dist[start] = 0;
 
-    for(int i = 0; i<iloscWierzcholkow; i++)
+    for(int i = 0; i < iloscWierzcholkow; i++)
     {
         int indeksWierzcholka;
         int mindist = INT_MAX;
-        for (int j =0; j<iloscWierzcholkow; j++)
+        for(int j =0; j<iloscWierzcholkow; j++)
         {
             if(!checked[j] &&dist[j] < mindist)
             {
@@ -271,8 +272,8 @@ void IncidentMatrix::dijkstra(int start)
             break;
         checked[indeksWierzcholka] = true;
 
-        vector<int> sasiednieWierzcholki;
-        vector<int> indeksyKrawedzi;
+        ListaInt sasiednieWierzcholki;
+        ListaInt indeksyKrawedzi;
         for(int j =0; j<iloscKrawedzi; j++)
         {
             if(macierz[indeksWierzcholka][j] == 1)
@@ -281,37 +282,33 @@ void IncidentMatrix::dijkstra(int start)
                 {
                     if(macierz[k][j] == -1 && !checked[k])
                     {
-                        indeksyKrawedzi.push_back(j);
-                        sasiednieWierzcholki.push_back(k);
+                        indeksyKrawedzi.dodajNaKoniec(j);
+                        sasiednieWierzcholki.dodajNaKoniec(k);
                         break;
                     }
                 }
             }
         }
-        for(auto it = indeksyKrawedzi.begin(); it !=indeksyKrawedzi.end(); it++)
-        {
-            cout << "Indeks krawedzi = " << *it << endl;
-        }
 
-        for(auto it = sasiednieWierzcholki.begin(); it !=sasiednieWierzcholki.end(); it++)
+        for(int i = 0; i <sasiednieWierzcholki.rozmiar; i++)
         {
-            if(dist[*it] > dist[indeksWierzcholka] + tablicaWag[indeksyKrawedzi.front()])
+            if(dist[sasiednieWierzcholki.zwrocElement(i)] > dist[indeksWierzcholka] + tablicaWag[indeksyKrawedzi.zwrocElement(0)])
             {
-                dist[*it] = dist[indeksWierzcholka] + tablicaWag[indeksyKrawedzi.front()];
-                pred[*it] = indeksWierzcholka;
+                dist[sasiednieWierzcholki.zwrocElement(i)] = dist[indeksWierzcholka] + tablicaWag[indeksyKrawedzi.zwrocElement(0)];
+                pred[sasiednieWierzcholki.zwrocElement(i)] = indeksWierzcholka;
             }
-            indeksyKrawedzi.erase(indeksyKrawedzi.begin());
+            indeksyKrawedzi.usunPierwszy();
         }
     }
     cout << endl<< "Wierzchołki, ich poprzednicy i koszta dojścia:" << endl;
-    for(auto it = dist.begin(); it != dist.end(); it++)
+    for(int i = 0; i < iloscWierzcholkow; i++)
     {
-        cout << *it << "; ";
+        cout << dist[i] << "; ";
     }
     cout<<endl;
-    for(auto it = pred.begin(); it != pred.end(); it++)
+    for(int i = 0; i < iloscWierzcholkow; i++)
     {
-        cout << *it << "; ";
+        cout << pred[i] << "; ";
     }
 }
 
