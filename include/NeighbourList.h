@@ -10,7 +10,6 @@ class NeighbourList
 {
     public:
         int iloscWierzcholkow, iloscKrawedzi;
-        Lista krawedzie;
         Lista* tablicaKrawedzi;
         Krawedz* p,* r;
         NeighbourList();
@@ -22,7 +21,7 @@ class NeighbourList
         bool KruskalMST();
         void fordBellman(int);
         void dijkstra(int);
-        Krawedz* nastepnaKrawedz(bool*, Disjoint_Union*);
+        Krawedz* nastepnaKrawedz(bool*, Disjoint_Union*, Lista&);
 };
 
 #endif // NEIGHBOURLIST_H

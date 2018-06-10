@@ -35,7 +35,7 @@
 	"Krawedz.h"
 	"lista.h"
 
-1528601485 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528642742 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"lista.h"
 	"NeighbourList.h"
 	"Krawedz.h"
@@ -50,7 +50,7 @@
 	<stddef.h>
 	<algorithm>
 
-1528598925 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
+1528642429 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
 	"Krawedz.h"
 	"lista.h"
 	"Disjoint_Union.h"
@@ -103,11 +103,11 @@
 1528411487 q:\studia\sdizo\projektpierwszy\grafy\include\krawedz.h
 	<iostream>
 
-1528596830 source:q:\studia\sdizo\projektpierwszy\grafy\src\lista.cpp
+1528638318 source:q:\studia\sdizo\projektpierwszy\grafy\src\lista.cpp
 	"lista.h"
 	<limits.h>
 
-1528596842 q:\studia\sdizo\projektpierwszy\grafy\include\lista.h
+1528637236 q:\studia\sdizo\projektpierwszy\grafy\include\lista.h
 	"Krawedz.h"
 
 1528582689 source:q:\studia\sdizo\projektpierwszy\grafy\src\elementlista.cpp

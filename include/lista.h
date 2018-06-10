@@ -38,9 +38,13 @@ public:
 	   	/// Metoda pomocnicza do quicksorta
 	   	void podzial(Krawedz*, Krawedz*);
 
+	   	bool czyKrawedzObecna(Krawedz*);
+
 	   	Krawedz* zwrocElement(int);
 
         Lista& operator = (Lista l);
+
+        void usunDuplikaty();
 
 	   	//bool sprawdzCzyIstnieje(Krawedz*);
 };

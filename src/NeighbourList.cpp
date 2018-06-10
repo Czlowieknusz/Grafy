@@ -62,7 +62,6 @@ void NeighbourList::stworzListeSasiedztw()
         {
             Lista l;
             tablicaKrawedzi[i] = l;
-            Krawedz* k = new Krawedz(i,i,i);
         }
         //drukujListe();
 
@@ -94,7 +93,7 @@ void NeighbourList::stworzListeSasiedztw()
                 }
             }
         }
-        drukujListe();
+        //drukujListe();
         myfile.close();
     }
     else
@@ -437,7 +436,8 @@ bool NeighbourList::KruskalMST()
             *k = *iter;
             iter = iter->nastepna;
             posortowane.usunPierwszy();
-        } while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
+        }
+        while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
         drzewo.dodajNaKoniec(k);
         disUnion.unionSets(*k);
         for(int j = 0; j < iloscWierzcholkow; j++)
@@ -467,7 +467,7 @@ bool NeighbourList::PrimMST(int start)
 
     while(licznikTrue!=iloscWierzcholkow)
     {
-        Krawedz* k = nastepnaKrawedz(odwiedzone, wskDisUnion);
+        Krawedz* k = nastepnaKrawedz(odwiedzone, wskDisUnion, drzewo);
         licznikTrue++;
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
@@ -478,23 +478,83 @@ bool NeighbourList::PrimMST(int start)
     return false;
 }
 
-Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion)
+Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion, Lista& drzewo)
 {
     Lista krawedzie;
-    for(int i = 0; i<iloscWierzcholkow; i++)
+    cout << "Szukamy krawedzi..." << endl;
+    for(int i = 0; i < iloscWierzcholkow; i++)
     {
-        if(odwiedzone[i]);
+        if(odwiedzone[i])
         {
-            for(int j = 0; j < tablicaKrawedzi[j].rozmiar; j++)
+            for(int j =0; j < tablicaKrawedzi[i].rozmiar; j++)
             {
                 Krawedz* wsk = tablicaKrawedzi[i].zwrocElement(j);
-                //for(int x = 0; x < tablicaKrawedzi.rozmiar; x++)
-                    //if(wsk->wierzcholekkoncowy == )
                 Krawedz* k = new Krawedz(wsk->wierzcholekPoczatkowy, wsk->wierzcholekkoncowy, wsk->waga);
                 krawedzie.dodajNaKoniec(k);
             }
         }
     }
+
+    for(int i = 0; i < krawedzie.rozmiar;)
+    {
+        Krawedz* k = krawedzie.zwrocElement(i);
+        if(disUnion->findSet(k->wierzcholekPoczatkowy) == disUnion->findSet(k->wierzcholekkoncowy))
+        {
+            krawedzie.usunKtorykolwiek(i);
+            continue;
+        }
+        i++;
+    }
+
+    Krawedz* zwracana = new Krawedz(-1,-1,INT_MAX);
+
+    for(int i = 0; i < krawedzie.rozmiar; i++)
+    {
+        if(zwracana->waga > krawedzie.zwrocElement(i)->waga)
+            zwracana = krawedzie.zwrocElement(i);
+    }
+
+    odwiedzone[zwracana->wierzcholekkoncowy] = true;
+    odwiedzone[zwracana->wierzcholekPoczatkowy] = true;
+    Krawedz* k = new Krawedz;
+    k->waga = zwracana->waga;
+    k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
+    k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
+    return k;
+
+
+}
+
+
+/*
+Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion, Lista& drzewo)
+{
+    cout << "Szukamy krawedzi..." << endl;
+    Lista krawedzie;
+    cout << "Wierzcholki poczatkowe..." <<endl;
+    for(int i = 0; i < iloscWierzcholkow; i++)
+    {
+        if(odwiedzone[i])
+            cout << " " << i;
+    }
+    cout << endl;
+    for(int i = 0; i<iloscWierzcholkow; i++)
+    {
+        if(odwiedzone[i])
+        {
+            for(int j = 0; j < tablicaKrawedzi[i].rozmiar; j++)
+            {
+                Krawedz* wsk = tablicaKrawedzi[i].zwrocElement(j);
+                Krawedz* k = new Krawedz(wsk->wierzcholekPoczatkowy, wsk->wierzcholekkoncowy, wsk->waga);
+                krawedzie.dodajNaKoniec(k);
+            }
+        }
+    }
+
+    cout << "Krawedzie z cyklami" << endl;
+    krawedzie.wydrukujListeSasiedztwa();
+
+    /// Filtracja cykli
     for(int i = 0; i <krawedzie.rozmiar;)
     {
         Krawedz* k = krawedzie.zwrocElement(i);
@@ -507,6 +567,19 @@ Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUni
     }
     Krawedz* zwracana;
 
+    cout << "Krawedzie z powtorzeniami" << endl;
+    krawedzie.wydrukujListeSasiedztwa();
+/*
+    /// Filtracja powtorzen
+    for(int i = 0; i < krawedzie.rozmiar;)
+    {
+        if(drzewo.czyKrawedzObecna(krawedzie.zwrocElement(i))&&drzewo.rozmiar!=i)
+        {
+            krawedzie.usunKtorykolwiek(i);
+            continue;
+        }
+        i++;
+    }
     for(int i = 0; i < krawedzie.rozmiar; i++)
     {
         if(zwracana->waga > krawedzie.zwrocElement(i)->waga)
@@ -519,4 +592,4 @@ Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUni
     k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
     k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
     return k;
-}
+}*/
