@@ -14,7 +14,7 @@
 	<list>
 	"IncidentMatrix.h"
 
-1528598914 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528600751 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
@@ -35,7 +35,7 @@
 	"Krawedz.h"
 	"lista.h"
 
-1528597332 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528601485 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"lista.h"
 	"NeighbourList.h"
 	"Krawedz.h"

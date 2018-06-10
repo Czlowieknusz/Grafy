@@ -170,11 +170,11 @@ void NeighbourList::menu()
                 cout << "Wczytaj dane do amcierzy!\n";
                 break;
             }
-            int wierzStart = 0;
+            int wierszStart = 0;
             cout << "Podaj wierzcholek startowy: ";
-            cin >> wierzStart;
+            cin >> wierszStart;
             cout << endl;
-            //primMST(wierzStart);
+            PrimMST(wierszStart);
             break;
         }
         case 4:
@@ -481,6 +481,42 @@ bool NeighbourList::PrimMST(int start)
 Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion)
 {
     Lista krawedzie;
+    for(int i = 0; i<iloscWierzcholkow; i++)
+    {
+        if(odwiedzone[i]);
+        {
+            for(int j = 0; j < tablicaKrawedzi[j].rozmiar; j++)
+            {
+                Krawedz* wsk = tablicaKrawedzi[i].zwrocElement(j);
+                //for(int x = 0; x < tablicaKrawedzi.rozmiar; x++)
+                    //if(wsk->wierzcholekkoncowy == )
+                Krawedz* k = new Krawedz(wsk->wierzcholekPoczatkowy, wsk->wierzcholekkoncowy, wsk->waga);
+                krawedzie.dodajNaKoniec(k);
+            }
+        }
+    }
+    for(int i = 0; i <krawedzie.rozmiar;)
+    {
+        Krawedz* k = krawedzie.zwrocElement(i);
+        if(disUnion->findSet(k->wierzcholekPoczatkowy) == disUnion->findSet(k->wierzcholekkoncowy))
+        {
+            krawedzie.usunKtorykolwiek(i);
+            continue;
+        }
+        i++;
+    }
+    Krawedz* zwracana;
 
-
+    for(int i = 0; i < krawedzie.rozmiar; i++)
+    {
+        if(zwracana->waga > krawedzie.zwrocElement(i)->waga)
+            zwracana = krawedzie.zwrocElement(i);
+    }
+    odwiedzone[zwracana->wierzcholekkoncowy] = true;
+    odwiedzone[zwracana->wierzcholekPoczatkowy] = true;
+    Krawedz* k = new Krawedz;
+    k->waga = zwracana->waga;
+    k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
+    k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
+    return k;
 }
