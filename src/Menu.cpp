@@ -42,7 +42,7 @@ void Menu::AskForOption() {
 			case 2://Lista
 			{
 				NeighbourList lis;
-				//lis.menu();
+				lis.menu();
 				break;
 			}
 

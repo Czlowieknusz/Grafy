@@ -1,36 +1,28 @@
 #ifndef NEIGHBOURLIST_H
 #define NEIGHBOURLIST_H
-#include <list>
-#include <vector>
+#include "Krawedz.h"
+#include "lista.h"
+#include "Disjoint_Union.h"
 
 using namespace std;
-
-class krawedz
-{
-    public:
-    int poczatek, koniec, waga;
-
-    krawedz(int, int, int);
-};
-
-class wierzcholek
-{
-    public:
-    int indeks;
-    list<krawedz> sasiedzi;
-
-    wierzcholek(int, list<krawedz>);
-    wierzcholek(int);
-};
 
 class NeighbourList
 {
     public:
-        int ilWierzch, ilKraw;
-        vector<wierzcholek> sasiedztwo;
-        krawedz* p,* r;
+        int iloscWierzcholkow, iloscKrawedzi;
+        Lista krawedzie;
+        Lista* tablicaKrawedzi;
+        Krawedz* p,* r;
         NeighbourList();
         ~NeighbourList();
+        void stworzListeSasiedztw();
+        void drukujListe();
+        void menu();
+        bool PrimMST(int);
+        bool KruskalMST();
+        void fordBellman(int);
+        void dijkstra(int);
+        Krawedz* nastepnaKrawedz(bool*, Disjoint_Union*);
 };
 
 #endif // NEIGHBOURLIST_H

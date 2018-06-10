@@ -24,13 +24,23 @@ public:
 
 	   	void wydrukujListe();
 
+	   	void wydrukujListeSasiedztwa();
+
 	   	void usunPierwszy();
 
 	   	void usunOstatni();
 
 	   	void usunKtorykolwiek(int);
 
-	   	void sortList();
+	   	/// Quicksort
+	   	void quickSort();
+
+	   	/// Metoda pomocnicza do quicksorta
+	   	void podzial(Krawedz*, Krawedz*);
+
+	   	Krawedz* zwrocElement(int);
+
+        Lista& operator = (Lista l);
 
 	   	//bool sprawdzCzyIstnieje(Krawedz*);
 };

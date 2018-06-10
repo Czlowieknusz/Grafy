@@ -14,7 +14,7 @@
 	<list>
 	"IncidentMatrix.h"
 
-1528468436 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528598914 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
@@ -27,27 +27,33 @@
 	"Disjoint_Union.h"
 	"lista.h"
 
-1528468267 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
+1528546318 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
 	<fstream>
 	<list>
 	<vector>
+	"Disjoint_Union.h"
 	"Krawedz.h"
+	"lista.h"
 
-1528071145 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528597332 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+	"lista.h"
 	"NeighbourList.h"
+	"Krawedz.h"
+	"listaInt.h"
 	<iostream>
 	<fstream>
 	<string>
 	<stdlib.h>
 	<istream>
 	<iomanip>
-	<list>
-	<vector>
+	<limits.h>
+	<stddef.h>
 	<algorithm>
 
-1528030734 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
-	<list>
-	<vector>
+1528598925 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
+	"Krawedz.h"
+	"lista.h"
+	"Disjoint_Union.h"
 
 1528123534 source:q:\studia\sdizo\projektpierwszy\grafy\src\kruskal.cpp
 	"Kruskal.h"
@@ -75,7 +81,7 @@
 
 1528213531 q:\studia\sdizo\projektpierwszy\grafy\include\dane.h
 
-1528217498 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
+1528561449 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
 	"Menu.h"
 	"IncidentMatrix.h"
 	"NeighbourList.h"
@@ -97,9 +103,23 @@
 1528411487 q:\studia\sdizo\projektpierwszy\grafy\include\krawedz.h
 	<iostream>
 
-1528447964 source:q:\studia\sdizo\projektpierwszy\grafy\src\lista.cpp
+1528596830 source:q:\studia\sdizo\projektpierwszy\grafy\src\lista.cpp
 	"lista.h"
+	<limits.h>
 
-1528416787 q:\studia\sdizo\projektpierwszy\grafy\include\lista.h
+1528596842 q:\studia\sdizo\projektpierwszy\grafy\include\lista.h
 	"Krawedz.h"
+
+1528582689 source:q:\studia\sdizo\projektpierwszy\grafy\src\elementlista.cpp
+	"elementLista.h"
+
+1528582659 q:\studia\sdizo\projektpierwszy\grafy\include\elementlista.h
+
+1528582834 source:q:\studia\sdizo\projektpierwszy\grafy\src\listaint.cpp
+	<stddef.h>
+	<iostream>
+	"listaInt.h"
+
+1528582795 q:\studia\sdizo\projektpierwszy\grafy\include\listaint.h
+	"elementLista.h"
 

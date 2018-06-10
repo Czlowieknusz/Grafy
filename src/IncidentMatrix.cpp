@@ -64,7 +64,7 @@ void IncidentMatrix::stworzMacierz()
         iloscKrawedzi = atoi(line.c_str());
 
         macierz = new int*[iloscWierzcholkow];
-        tablicaWag = new int[iloscWierzcholkow];
+        tablicaWag = new int[iloscKrawedzi];
 
         /// Tworzenie wierszy macierzy
         for(int i =0; i<iloscWierzcholkow; i++)
@@ -78,7 +78,7 @@ void IncidentMatrix::stworzMacierz()
         /// Odczytanie krawedzi i zapisanie do macierzy
         /// Poczatek - Koniec - Waga
         int buf[3], counter = 0, krawedz = 0;
-        macierzPomocnicza = new int* [iloscKrawedzi];
+        macierzPomocnicza = new int*[iloscKrawedzi];
         for(int i = 0; i < iloscKrawedzi; i++)
         {
             macierzPomocnicza[i] = new int[3];
@@ -361,8 +361,17 @@ void IncidentMatrix::fordBellman(int start)
         if(maxint == 0)
             break;
     }
-    for(int i = 0; i <iloscWierzcholkow; i++)
-        cout << pred[i] << " : " << dist[i] << endl;
+    cout << "Wierzcholki ich poprzednicy i koszt dojscia..." <<endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
+    {
+        cout << dist[i] << "; ";
+    }
+    cout << endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
+    {
+        cout << pred[i] << "; ";
+    }
+    cout << endl;
 
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
@@ -447,6 +456,11 @@ bool IncidentMatrix::KruskalMST()
         while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
         drzewo.dodajNaKoniec(k);
         disUnion.unionSets(*k);
+        cout << "Co jest?" << endl;
+        for(int j = 0; j<iloscWierzcholkow; j++)
+        {
+            cout << "DisUnion -> up = " << disUnion.z[j].up << "; rank = " << disUnion.z[j].rank << endl;
+        }
     }
 
     cout << "Minimalne drzewo rozpinające:"<<endl;
@@ -456,33 +470,113 @@ bool IncidentMatrix::KruskalMST()
 
 bool IncidentMatrix::primMST(int start)
 {
-    bool* odwiedzone= new bool[iloscWierzcholkow] ;
-    int licznikTrue = 0;
+    bool* odwiedzone = new bool[iloscWierzcholkow] ;
+    int licznikTrue = 1;
 
+    Disjoint_Union disUnion(iloscWierzcholkow);
+
+    Disjoint_Union* wskDisUnion = &disUnion;
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         odwiedzone[i] = false;
-        //cout << odwiedzone[i] << " ";
     }
+
+    for(int i = 0; i < iloscWierzcholkow; i++)
+        disUnion.makeSet(i);
 
     odwiedzone[start] = true;
     Lista drzewo;
 
     while(licznikTrue!=iloscWierzcholkow)
     {
+        for(int i = 0; i < iloscWierzcholkow; i++)
+        {
+            cout << "up = " << disUnion.z[i].up << " ; " << disUnion.z[i].rank << endl;
+        }
+        Krawedz* k = nastepnaKrawedz(odwiedzone, wskDisUnion);
         licznikTrue++;
+        cout << "k = " << *k << endl;
+        drzewo.dodajNaKoniec(k);
+        wskDisUnion->unionSets(*k);
     }
-    Krawedz* k = nastepnaKrawedz(odwiedzone);
-
+    drzewo.wydrukujListe();
+    delete wskDisUnion;
+    delete[] odwiedzone;
     return false;
 }
 
-Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone)
+Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion)
 {
-    Krawedz* k;
+    Lista krawedzie;
+
+    // Wyselekcjonowanie krawedzi do ktorych naleza wierzcholki drzewa
     for(int i = 0; i<iloscWierzcholkow; i++)
     {
-
+        // Sprawdzenie, ktora krawedz nalezy do drzewa
+        if(odwiedzone[i] == true)
+        {
+            // Znalezienie indeksow krawedzi wierzcholka
+            for(int j = 0; j < iloscKrawedzi; j++)
+            {
+                if(macierz[i][j] == 1)
+                {
+                    // Znalezienie indeksu wierzcholka sasiadujacego
+                    for(int z = 0; z < iloscWierzcholkow; z++)
+                    {
+                        if(macierz[z][j]==-1)
+                        {
+                            Krawedz* k = new Krawedz(i,z,tablicaWag[j]);
+                            krawedzie.dodajNaKoniec(k);
+                        }
+                    }
+                }
+                if(macierz[i][j] == -1)
+                {
+                    // Znalezienie indeksu wierzcholka sasiadujacego
+                    for(int z = 0; z < iloscWierzcholkow; z++)
+                    {
+                        if(macierz[z][j]==1)
+                        {
+                            Krawedz* k = new Krawedz(i,z,tablicaWag[j]);
+                            krawedzie.dodajNaKoniec(k);
+                        }
+                    }
+                }
+            }
+        }
     }
+    cout << "Przed DisUnion..."<<endl;
+    for(int i = 0; i<krawedzie.rozmiar; i++)
+        cout << "Krawedz ["<<i<<"] = " << *krawedzie.zwrocElement(i) << endl;
+
+    for(int i = 0; i<krawedzie.rozmiar;)
+    {
+        Krawedz* k = krawedzie.zwrocElement(i);
+        if(disUnion->findSet(k->wierzcholekPoczatkowy) == disUnion->findSet(k->wierzcholekkoncowy))
+        {
+            krawedzie.usunKtorykolwiek(i);
+            continue;
+        }
+        i++;
+    }
+        //krawedzie.wydrukujListe();
+    Krawedz* zwracana;
+
+    cout << "Przed Wagami..."<<endl;
+    for(int i = 0; i<krawedzie.rozmiar; i++)
+        cout << "Krawedz ["<<i<<"] = " << *krawedzie.zwrocElement(i) << endl;
+
+    for(int i = 0; i < krawedzie.rozmiar; i++)
+        if(zwracana->waga > krawedzie.zwrocElement(i)->waga)
+        {
+            zwracana = krawedzie.zwrocElement(i);
+        }
+        cout << "Zwracana = " << *zwracana << endl;
+    odwiedzone[zwracana->wierzcholekkoncowy] = true;
+    odwiedzone[zwracana->wierzcholekPoczatkowy] = true;
+    Krawedz* k = new Krawedz;
+    k->waga = zwracana->waga;
+    k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
+    k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
     return k;
 }

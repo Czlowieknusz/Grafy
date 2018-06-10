@@ -1,4 +1,6 @@
 #include "lista.h"
+#include <limits.h>
+
 using namespace std;
 
 Lista::Lista()
@@ -285,6 +287,7 @@ bool Lista::sprawdzCzyIstnieje(Krawedz* k)
 */
 void Lista::wydrukujListe()
 {
+    cout << endl<< "Lista..."<<endl;
 	// Przypisz do aktualna pierwsza
 	aktualna = pierwsza;
 
@@ -296,6 +299,22 @@ void Lista::wydrukujListe()
 		aktualna = aktualna->nastepna;
 	}
 }
+
+void Lista::wydrukujListeSasiedztwa()
+{
+	// Przypisz do aktualna pierwsza
+	aktualna = pierwsza;
+
+	for(int i = 0; i < rozmiar; i++)
+	{
+		cout << *aktualna;
+
+		// Przypisz kolejny element listy jako aktualn
+		aktualna = aktualna->nastepna;
+	}
+	cout << endl;
+}
+
 /*
 void Lista::sortList()
 {
@@ -309,3 +328,62 @@ void Lista::sortList()
     }
 }
 */
+
+Krawedz* Lista::zwrocElement(int pozycja)
+{
+    aktualna = pierwsza;
+    for(int i = 0; i < pozycja; i++)
+        aktualna= aktualna->nastepna;
+    return aktualna;
+}
+
+Lista& Lista::operator=(const Lista l)
+{
+    this->pierwsza = l.pierwsza;
+    this->aktualna = l.aktualna;
+    this->ostatnia = l.ostatnia;
+    this->rozmiar = l.rozmiar;
+
+    return* this;
+}
+
+void Lista::quickSort()
+{
+    Krawedz* wartownikPrzod = new Krawedz(-1,-1,0);
+    Krawedz* wartownikTyl = new Krawedz(-1,-1,0);
+    dodajNaPoczatek(wartownikPrzod);
+    dodajNaKoniec(wartownikTyl);
+    podzial(pierwsza,ostatnia);
+    usunPierwszy();
+    usunOstatni();
+}
+
+void Lista::podzial(Krawedz* lw, Krawedz* pw)
+{
+    Krawedz* p,* i,* j;
+
+    p = lw->nastepna;
+    i = p->nastepna;
+    if(i != pw)
+    {
+        do
+        {
+            j = i;
+            i = i->nastepna;
+            if(j->waga < p->waga)
+            {
+                j->poprzednia->nastepna = j->nastepna;
+                j->nastepna->poprzednia = j->poprzednia;
+                j->nastepna = p;
+                j->poprzednia = p->poprzednia;
+                p->poprzednia = j;
+                j->poprzednia->nastepna = j;
+            }
+        } while(i != pw);
+
+        if(lw->nastepna != p)
+            podzial(lw, p);
+        if(p->nastepna != pw)
+            podzial(p, pw);
+    }
+}

@@ -4,7 +4,9 @@
 #include <fstream>
 #include <list>
 #include <vector>
+#include "Disjoint_Union.h"
 #include "Krawedz.h"
+#include "lista.h"
 
 using namespace std;
 
@@ -25,7 +27,7 @@ class IncidentMatrix
         void stworzMacierz();       // dane z pliku
         bool KruskalMST();
         bool primMST(int);      // alg. Prima
-        Krawedz* nastepnaKrawedz(bool*); // metoda pomocnicza do alg. Prima
+        Krawedz* nastepnaKrawedz(bool*, Disjoint_Union*); // metoda pomocnicza do alg. Prima
         void dijkstra(int);     // alg Dijkstry
         void fordBellman(int);  // alg. Forda-Bellmana
         void stworzLosowaMacierz();        // Tworzy losowy graf
