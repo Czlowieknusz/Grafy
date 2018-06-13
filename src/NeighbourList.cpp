@@ -9,38 +9,27 @@
 #include <istream>
 #include <iomanip>
 #include <limits.h>
+#include <time.h>
 #include <stddef.h>
 #include <algorithm>
 
 
 using namespace std;
-/*
-krawedz::krawedz(int pocz, int kon, int wag)
-{
-    poczatek = pocz;
-    koniec = kon;
-    waga = wag;
-}
 
-wierzcholek::wierzcholek(int nr, list<krawedz> lista)
+NeighbourList::NeighbourList()
 {
-    indeks = nr;
-    sasiedzi = lista;
+    tablicaKrawedzi = NULL;
+    iloscWierzcholkow = iloscKrawedzi = 0;
 }
-
-wierzcholek::wierzcholek(int nr)
-{
-    indeks = nr;
-}
-*/
 
 NeighbourList::NeighbourList(int wybor)
 {
     tablicaKrawedzi = NULL;
     iloscWierzcholkow = iloscKrawedzi = 0;
-    stworzListeSasiedztw(wybor);
+    //stworzListeSasiedztw(wybor);
 }
 
+/// Odczytuje z pliku 'test.txt' krawedzie grafu
 void NeighbourList::stworzListeSasiedztw(int wybor)
 {
     /// Odczytanie krawêdzi -> do dodania
@@ -68,8 +57,8 @@ void NeighbourList::stworzListeSasiedztw(int wybor)
         /// Odczytanie krawedzi i zapisanie do macierzy
         /// Poczatek - Koniec - Waga
         int buf[3], counter = 0;
-        int skierowany;
-       // cout << "Graf skierowany [0] czy nieskierowany [inna]? ";
+        //int skierowany
+        // cout << "Graf skierowany [0] czy nieskierowany [inna]? ";
         //cin >> skierowany;
         while(getline(myfile, line, ' '))
         {
@@ -93,7 +82,6 @@ void NeighbourList::stworzListeSasiedztw(int wybor)
                 }
             }
         }
-        //drukujListe();
         myfile.close();
     }
     else
@@ -104,25 +92,28 @@ void NeighbourList::stworzListeSasiedztw(int wybor)
 
 NeighbourList::~NeighbourList()
 {
-
+    delete[] tablicaKrawedzi;
 }
 
+/// Drukuje liste
 void NeighbourList::drukujListe()
 {
     cout << "Lista sasiedztw..." << endl;
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
+        cout << "[" << i << "]. ";
         tablicaKrawedzi[i].wydrukujListe();
+        cout << endl;
     }
 }
 
+/// Menu uzytkownika
 void NeighbourList::menu()
 {
     cout << endl;
     int liczba;
     short exit = 0;
     short choice;
-    //int index = 0;
     while (exit == 0)
     {
         if (exit == 1)
@@ -134,7 +125,6 @@ void NeighbourList::menu()
         cout << "4. Algorytm Kruskala. \n";
         cout << "5. Algorytm Dijkstry. \n";
         cout << "6. Algorytm Forda-Bellmana. \n";
-        cout << "7. Algorytm Forda Fulkersona. \n";
         cout << "8. Wypisz liste. \n";
         cout << "9. Wroc do poprzedniego menu. \n";
         cout << "10. Testy. \n";
@@ -157,13 +147,21 @@ void NeighbourList::menu()
 
         case 2:
         {
-            //stworzLosowaMacierz();
+            int ilW, ilK;
+            bool skier;
+            cout << "ile wiezcholkow?" <<endl;
+            cin >> ilW;
+            cout << "ile kraedzi?" <<endl;
+            cin >> ilK;
+            cout << "skierowany? [0 - tak; 1 - nie]" <<endl;
+            cin >> skier;
+            losowaListaSasiedztw(ilW,ilK, skier);
             break;
         }
         case 3:
         {
             cout << endl;
-            if (tablicaKrawedzi == NULL)
+            if (tablicaKrawedzi == NULL || tablicaKrawedzi->rozmiar == 0)
             {
                 cout << "Macierz jest pusta! \n";
                 cout << "Wczytaj dane do amcierzy!\n";
@@ -173,13 +171,20 @@ void NeighbourList::menu()
             cout << "Podaj wierzcholek startowy: ";
             cin >> wierszStart;
             cout << endl;
-            PrimMST(wierszStart);
+            if (liczba < 0 || liczba >= iloscWierzcholkow)
+            {
+                cout << "Niepoprawny wierzcholek!\n";
+            }
+            else
+            {
+                PrimMST(wierszStart);
+            }
             break;
         }
         case 4:
         {
             cout << endl;
-            if (tablicaKrawedzi == NULL)
+            if (tablicaKrawedzi == NULL || tablicaKrawedzi->rozmiar == 0)
             {
                 cout << "Macierz jest pusta! \n";
                 cout << "Wczytaj dane do amcierzy!\n";
@@ -192,7 +197,7 @@ void NeighbourList::menu()
         case 5:
         {
             cout << endl;
-            if (tablicaKrawedzi == NULL)
+            if (tablicaKrawedzi == NULL || tablicaKrawedzi->rozmiar == 0)
             {
                 cout << "Macierz jest pusta! \n";
                 cout << "Wczytaj dane do macierzy!\n";
@@ -214,7 +219,7 @@ void NeighbourList::menu()
         case 6:
         {
             cout << endl;
-            if (tablicaKrawedzi == NULL)
+            if (tablicaKrawedzi == NULL || tablicaKrawedzi->rozmiar == 0)
             {
                 cout << "Macierz jest pusta! \n";
                 cout << "Wczytaj dane do amcierzy!\n";
@@ -237,6 +242,8 @@ void NeighbourList::menu()
         case 8:
             drukujListe();
             break;
+        case 9:
+            return;
         default:
         {
             cout << "Wybrales zla opcje! \n";
@@ -246,12 +253,17 @@ void NeighbourList::menu()
     }
 }
 
+/// Algorytm dijkstry
 void NeighbourList::dijkstra(int start)
 {
+    /// Tablice: poprzednikow, dystansu i flag odwiedzen
     int* pred = new int[iloscWierzcholkow];
     int* dist = new int[iloscWierzcholkow];
     bool* checked = new bool[iloscWierzcholkow];
 
+    /// Ustawienie poprzednikow na -1
+    /// dystasu na najwieksza wartosc inta
+    /// flage odwiedzenia na false
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         pred[i] = -1;
@@ -259,12 +271,16 @@ void NeighbourList::dijkstra(int start)
         checked[i] = false;
     }
 
+    /// Dystans wierzcholka poczatkowego to 0
     dist[start] = 0;
 
+    /// Petla funkcji
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         int indeksWierzcholka;
         int mindist = INT_MAX;
+
+        /// Sprawdzenie, czy do wierzcholka da sie dojsc szybciej
         for(int j = 0; j < iloscWierzcholkow; j++)
         {
             if(!checked[j] && dist[j] < mindist)
@@ -277,13 +293,10 @@ void NeighbourList::dijkstra(int start)
             break;
         checked[indeksWierzcholka] = true;
 
-        //ListaInt sasiednieWierzcholki;
-        //ListaInt indeksyKrawedzi;
-
+        /// Zmiana najlepszego wierzcholka dojscia dla kazdego wierzcholka
         for(int j = 0; j < tablicaKrawedzi[indeksWierzcholka].rozmiar; j++)
         {
             Krawedz* wsk = tablicaKrawedzi[indeksWierzcholka].zwrocElement(j);
-            //cout << "Wsk = " << *wsk << "; tabKra = " << *tablicaKrawedzi[indeksWierzcholka].zwrocElement(j) << endl;
             if(dist[wsk->wierzcholekkoncowy] > dist[wsk->wierzcholekPoczatkowy] + wsk->waga)
             {
                 dist[wsk->wierzcholekkoncowy] = dist[wsk->wierzcholekPoczatkowy] + wsk->waga;
@@ -318,6 +331,8 @@ void NeighbourList::fordBellman(int start)
     int* dist = new int[iloscWierzcholkow];
     bool* wierzcholkiWychodzace = new bool[iloscWierzcholkow];
     bool* wierzcholkiWychodzacePomoc = new bool[iloscWierzcholkow];
+
+    /// Ustawienie wartosci poczatkowych
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         pred[i] = -1;
@@ -326,14 +341,17 @@ void NeighbourList::fordBellman(int start)
         wierzcholkiWychodzacePomoc[i] = false;
     }
 
+    /// Ustawienie wierzcholka poczatkowego
     dist[start] = 0;
     wierzcholkiWychodzace[start] = true;
 
+    /// Petla dla n-1 powtorzen
     for(int i = 1; i < iloscWierzcholkow; i++)
     {
         zmieniony = true;
         jestCykl = true;
 
+        /// Sprawdzenie warunku dla kazdej krawedzi wychodzacej z ostatnio odwiezdonych wierzcholkow
         for(int j = 0; j<iloscWierzcholkow; j++)
         {
             if(wierzcholkiWychodzace[j])
@@ -358,6 +376,7 @@ void NeighbourList::fordBellman(int start)
             }
         }
 
+        /// Wyznaczenie przyszlych wierzcholkow poczatkowych
         for(int x = 0; x < iloscWierzcholkow; x++)
         {
             if(wierzcholkiWychodzacePomoc[x])
@@ -384,6 +403,7 @@ void NeighbourList::fordBellman(int start)
     }
     cout << endl;
 
+    /// Wykrycie cylku ujemnego
     for(int i = 0; i < iloscWierzcholkow; i++)
         for(int j = 0; j < tablicaKrawedzi[i].rozmiar; j++)
         {
@@ -412,15 +432,20 @@ bool NeighbourList::KruskalMST()
     {
         for(int j = 0; j < tablicaKrawedzi[i].rozmiar; j++)
         {
-            posortowane.dodajNaKoniec(tablicaKrawedzi[i].zwrocElement(j));
+            Krawedz* k = new Krawedz(*tablicaKrawedzi[i].zwrocElement(j));
+            posortowane.dodajNaKoniec(k);
         }
     }
+
     /// Sortuje liste
     posortowane.quickSort();
 
     for(int i = 0; i < iloscWierzcholkow; i++)
         disUnion.makeSet(i);
 
+    /// Petla pobierajaca kolejne krawezdie z posortowanego zbioru
+    /// i sprawdzajaca czy nie tworza cykli
+    /// na jedna iteracje przypadajedna krawedz
     for(int i = 1; i <iloscWierzcholkow; i++)
     {
         Krawedz* k = new Krawedz;
@@ -430,7 +455,6 @@ bool NeighbourList::KruskalMST()
         {
             if(iter == NULL)
             {
-                cout << "Nie da sie utworzyc MST" << endl;
                 return false;
             }
             *k = *iter;
@@ -440,8 +464,6 @@ bool NeighbourList::KruskalMST()
         while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
         drzewo.dodajNaKoniec(k);
         disUnion.unionSets(*k);
-        for(int j = 0; j < iloscWierzcholkow; j++)
-            cout << "DisUnion->up = " << disUnion.z[j].up << "; rank = " << disUnion.z[j].rank << endl;
     }
     cout << "Minimalne drzewo rozpinajace..." << endl;
     drzewo.wydrukujListe();
@@ -465,9 +487,14 @@ bool NeighbourList::PrimMST(int start)
 
     odwiedzone[start] = true;
 
+    /// Petla wyznaczajaca krawedzie drzewa
+    /// iteruje poki ilosc krawedzi w drzewie nie jest rowna ilosci wierzcholkow
+    ///
     while(licznikTrue!=iloscWierzcholkow)
     {
         Krawedz* k = nastepnaKrawedz(odwiedzone, wskDisUnion, drzewo);
+        if(k->waga == INT_MAX)
+            return false;
         licznikTrue++;
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
@@ -478,10 +505,13 @@ bool NeighbourList::PrimMST(int start)
     return false;
 }
 
+/// Funkcja wyznaczajaca nastepna krawedz do dodania
+/// Dodaje do zbioru z ktorego w przyszlosci wybierze wszystkie krawedzie wychodzace z wybranych juz wierzcholkow
+/// nasteone sortuje je pod wzgledem wystepowania cykli
+/// nastepnie sposrod pozostalych wybiera ten o najmniejszym koszcie
 Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion, Lista& drzewo)
 {
     Lista krawedzie;
-    cout << "Szukamy krawedzi..." << endl;
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         if(odwiedzone[i])
@@ -503,6 +533,7 @@ Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUni
             krawedzie.usunKtorykolwiek(i);
             continue;
         }
+        /// Dla kazdego
         i++;
     }
 
@@ -521,75 +552,47 @@ Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUni
     k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
     k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
     return k;
-
-
 }
 
-
-/*
-Krawedz* NeighbourList::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion, Lista& drzewo)
+void NeighbourList::losowaListaSasiedztw(int ilW, int ilK, int skier)
 {
-    cout << "Szukamy krawedzi..." << endl;
-    Lista krawedzie;
-    cout << "Wierzcholki poczatkowe..." <<endl;
-    for(int i = 0; i < iloscWierzcholkow; i++)
+    if(ilW == 0)
+        return;
+    delete[] tablicaKrawedzi;
+    iloscWierzcholkow = ilW;
+    iloscKrawedzi = ilK;
+    tablicaKrawedzi = new Lista[ilW];
+
+    /// Tworzenie wierszy tablicy list
+    for(int i =0; i<iloscWierzcholkow; i++)
     {
-        if(odwiedzone[i])
-            cout << " " << i;
+        Lista l;
+        tablicaKrawedzi[i] = l;
     }
-    cout << endl;
-    for(int i = 0; i<iloscWierzcholkow; i++)
+    //drukujListe();
+
+    /// Odczytanie krawedzi i zapisanie do macierzy
+    /// Poczatek - Koniec - Waga
+    int skierowany = skier;
+    // cout << "Graf skierowany [0] czy nieskierowany [inna]? ";
+    //cin >> skierowany;
+    srand(time(NULL));
+    for(int i = 0; i < ilK; i++)
     {
-        if(odwiedzone[i])
+        int wPocz = rand()%iloscWierzcholkow;
+        int wKon = rand()%iloscWierzcholkow;
+        int wagaK = rand()%10;
+        if(skierowany == 0)
         {
-            for(int j = 0; j < tablicaKrawedzi[i].rozmiar; j++)
-            {
-                Krawedz* wsk = tablicaKrawedzi[i].zwrocElement(j);
-                Krawedz* k = new Krawedz(wsk->wierzcholekPoczatkowy, wsk->wierzcholekkoncowy, wsk->waga);
-                krawedzie.dodajNaKoniec(k);
-            }
+            Krawedz* k = new Krawedz(wPocz, wKon, wagaK);
+            tablicaKrawedzi[wPocz].dodajNaKoniec(k);
+        }
+        else
+        {
+            Krawedz* k = new Krawedz(wPocz, wKon, wagaK);
+            Krawedz* k2 = new Krawedz(wKon, wPocz, wagaK);
+            tablicaKrawedzi[wPocz].dodajNaKoniec(k);
+            tablicaKrawedzi[wKon].dodajNaKoniec(k2);
         }
     }
-
-    cout << "Krawedzie z cyklami" << endl;
-    krawedzie.wydrukujListeSasiedztwa();
-
-    /// Filtracja cykli
-    for(int i = 0; i <krawedzie.rozmiar;)
-    {
-        Krawedz* k = krawedzie.zwrocElement(i);
-        if(disUnion->findSet(k->wierzcholekPoczatkowy) == disUnion->findSet(k->wierzcholekkoncowy))
-        {
-            krawedzie.usunKtorykolwiek(i);
-            continue;
-        }
-        i++;
-    }
-    Krawedz* zwracana;
-
-    cout << "Krawedzie z powtorzeniami" << endl;
-    krawedzie.wydrukujListeSasiedztwa();
-/*
-    /// Filtracja powtorzen
-    for(int i = 0; i < krawedzie.rozmiar;)
-    {
-        if(drzewo.czyKrawedzObecna(krawedzie.zwrocElement(i))&&drzewo.rozmiar!=i)
-        {
-            krawedzie.usunKtorykolwiek(i);
-            continue;
-        }
-        i++;
-    }
-    for(int i = 0; i < krawedzie.rozmiar; i++)
-    {
-        if(zwracana->waga > krawedzie.zwrocElement(i)->waga)
-            zwracana = krawedzie.zwrocElement(i);
-    }
-    odwiedzone[zwracana->wierzcholekkoncowy] = true;
-    odwiedzone[zwracana->wierzcholekPoczatkowy] = true;
-    Krawedz* k = new Krawedz;
-    k->waga = zwracana->waga;
-    k->wierzcholekkoncowy = zwracana->wierzcholekkoncowy;
-    k->wierzcholekPoczatkowy = zwracana->wierzcholekPoczatkowy;
-    return k;
-}*/
+}

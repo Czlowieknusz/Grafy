@@ -5,6 +5,12 @@ using namespace std;
 
 Krawedz::Krawedz(){}
 
+Krawedz::Krawedz(const Krawedz& kra)
+{
+    wierzcholekPoczatkowy = kra.wierzcholekPoczatkowy;
+    wierzcholekkoncowy = kra.wierzcholekkoncowy;
+    waga = kra.waga;
+}
 
 Krawedz::~Krawedz()
 {
@@ -57,8 +63,8 @@ Krawedz& Krawedz::operator=(const Krawedz k)
 
 ostream& operator << (ostream& str, Krawedz k)
 {
-    str << k.wierzcholekPoczatkowy << "\t";
-    str << k.wierzcholekkoncowy << "\t";
-    str << k.waga << "\n";
+    str << k.wierzcholekPoczatkowy << "->";
+    str << k.wierzcholekkoncowy << ": ";
+    str << k.waga;
     return str;
 }

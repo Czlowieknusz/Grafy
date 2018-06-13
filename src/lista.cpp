@@ -122,7 +122,7 @@ void Lista::dodajGdziekolwiek(Krawedz* k, int pozycja)
             aktualna = aktualna->poprzednia;
         }
     }
-    cout << "Dodawany element = " << *k << " poprzedniczka: "<<*aktualna << "; pozycja: " << pozycja <<endl;
+    //cout << "Dodawany element = " << *k << " poprzedniczka: "<<*aktualna << "; pozycja: " << pozycja <<endl;
     // Stwórz nowy element listy z podanymi parametrami
     k->nastepna = aktualna->nastepna;
     k->poprzednia = aktualna;
@@ -138,7 +138,7 @@ void Lista::usunPierwszy()
 {
     if(pierwsza==NULL)
     {
-        cout << "Lista jest pusta."<<endl;
+        //cout << "Lista jest pusta."<<endl;
         return;
     }
     // Przypisz drugi element jako aktualny
@@ -170,7 +170,7 @@ void Lista::usunOstatni()
 {
     if(pierwsza==NULL)
     {
-        cout << "Lista jest pusta."<<endl;
+        //cout << "Lista jest pusta."<<endl;
         return;
     }
     // Przypisz przedostatni element jako aktualny
@@ -284,7 +284,7 @@ bool Lista::sprawdzCzyIstnieje(Krawedz* k)
 	//cout << "Nie znaleziono wartoœci w liœcie" << endl;
 	return false;
 }
-*/
+
 void Lista::wydrukujListe()
 {
     cout << endl<< "Lista..."<<endl;
@@ -296,6 +296,19 @@ void Lista::wydrukujListe()
         cout << *aktualna;
 
         // Przypisz kolejny element listy jako aktualn
+        aktualna = aktualna->nastepna;
+    }
+}
+*/
+void Lista::wydrukujListe()
+{
+    /// Przypisz do aktualna pierwsza
+    aktualna = pierwsza;
+
+    for(int i = 0; i < rozmiar; i++)
+    {
+        cout << *aktualna <<"; ";
+        /// Przypisz kolejny element listy jako aktualn
         aktualna = aktualna->nastepna;
     }
 }

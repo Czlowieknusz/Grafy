@@ -11,7 +11,15 @@ class Testy
     public:
         Testy();
         virtual ~Testy();
-        void dijkstraMatrix();
+        void testyMatrix();
+        void dijkstraMatrix(int);
+        void fordBellmanMatrix(int);
+        void primMatrix(int);
+        void kruskalMatrix(int);
+        void dijkstraLista(int);
+        void fordBellmanLista(int);
+        void primLista(int);
+        void kruskalLista(int);
 
 
     protected:

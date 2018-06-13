@@ -11,10 +11,11 @@ class NeighbourList
     public:
         int iloscWierzcholkow, iloscKrawedzi;
         Lista* tablicaKrawedzi;
-        Krawedz* p,* r;
         NeighbourList(int);
+        NeighbourList();
         ~NeighbourList();
         void stworzListeSasiedztw(int);
+        void losowaListaSasiedztw(int, int, int);
         void drukujListe();
         void menu();
         bool PrimMST(int);

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <istream>
 #include <iomanip>
+#include <time.h>
 #include <limits.h>
 #include "Disjoint_Union.h"
 #include "lista.h"
@@ -18,7 +19,6 @@ IncidentMatrix::IncidentMatrix()
     macierz = NULL;
     iloscWierzcholkow = 0;
     iloscKrawedzi = 0;
-    stworzMacierz();
 }
 
 IncidentMatrix::~IncidentMatrix()
@@ -113,7 +113,6 @@ void IncidentMatrix::menu()
     int liczba;
     short exit = 0;
     short choice;
-    //int index = 0;
     while (exit == 0)
     {
         if (exit == 1)
@@ -125,7 +124,6 @@ void IncidentMatrix::menu()
         cout << "4. Algorytm Kruskala. \n";
         cout << "5. Algorytm Dijkstry. \n";
         cout << "6. Algorytm Forda-Bellmana. \n";
-        cout << "7. Algorytm Forda Fulkersona. \n";
         cout << "8. Wypisz macierz. \n";
         cout << "9. Wroc do poprzedniego menu. \n";
         cout << "10. Testy. \n";
@@ -148,7 +146,14 @@ void IncidentMatrix::menu()
 
         case 2:
         {
-            //stworzLosowaMacierz();
+            int ilW, ilK;
+            cout << "podaj ilosc wierzcholkow: ";
+            cin >>ilW;
+            cout << endl;
+            cout << "podaj ilosc krawedzi: ";
+            cin >>ilK;
+            cout << endl;
+            stworzLosowaMacierz(ilW,ilK);
             break;
         }
         case 3:
@@ -228,6 +233,8 @@ void IncidentMatrix::menu()
         case 8:
             drukujMacierz();
             break;
+        case 9:
+            return;
         default:
         {
             cout << "Wybrales zla opcje! \n";
@@ -237,16 +244,18 @@ void IncidentMatrix::menu()
     }
 }
 
+/// Algorytm Dijkstry:
+/// Wyszukuje najtansze drogi dojscia od wierzcholka startowego
 void IncidentMatrix::dijkstra(int start)
 {
-    /*cout << "Tablica wag: " << endl;
-    for(int i = 0; i<iloscKrawedzi; i++)
-        cout << "["<<i<<"] " << tablicaWag[i] << endl;
-    drukujMacierz();*/
+    /// Tablice poprzednikow, dystansow dojsc i flag odwiedzen
     int* pred = new int[iloscWierzcholkow];
     int* dist = new int[iloscWierzcholkow];
     bool* checked = new bool[iloscWierzcholkow];
 
+    /// wartosc poprzednikow to nieistniejacy wierzcholek -1
+    /// dystansem jest symboliczna nieskonczonosc, w tym przypadku najwieksza wartosc inta
+    /// odwiedzenia ustawione na false - poczatek dzialania algorytmu
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         pred[i] = -1;
@@ -254,12 +263,17 @@ void IncidentMatrix::dijkstra(int start)
         checked[i] = false;
     }
 
+    /// koszt dojscia do wierzcholka startowego to oczywiscie 0, poniewaz juz w nim jestesmy
     dist[start] = 0;
 
+    /// Petla algorytmu
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         int indeksWierzcholka;
         int mindist = INT_MAX;
+
+        /// Wyszukuje wierzcholek o najmniejszym dystansie, z ktorego jeszcze nie startowano
+        /// Dla pierwszego wywolania to zawsze bedzie nasz wierzcholek startowy
         for(int j =0; j<iloscWierzcholkow; j++)
         {
             if(!checked[j] &&dist[j] < mindist)
@@ -268,8 +282,11 @@ void IncidentMatrix::dijkstra(int start)
                 mindist = dist[indeksWierzcholka];
             }
         }
+
+        /// Jesli mindist maksymalne => nie ma nieodwiedzonego w jednym grafie ze startowym
         if(mindist == INT_MAX)
             break;
+
         checked[indeksWierzcholka] = true;
 
         ListaInt sasiednieWierzcholki;
@@ -290,6 +307,7 @@ void IncidentMatrix::dijkstra(int start)
             }
         }
 
+        /// Zmiana wartosci dojscia do wierzcholkow dla polaczonych z wybranym wierzcholkiem
         for(int i = 0; i <sasiednieWierzcholki.rozmiar; i++)
         {
             if(dist[sasiednieWierzcholki.zwrocElement(i)] > dist[indeksWierzcholka] + tablicaWag[indeksyKrawedzi.zwrocElement(0)])
@@ -300,6 +318,8 @@ void IncidentMatrix::dijkstra(int start)
             indeksyKrawedzi.usunPierwszy();
         }
     }
+
+    /// Drukowanie wynikow
     cout << endl<< "Wierzchołki, ich poprzednicy i koszta dojścia:" << endl;
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
@@ -310,8 +330,14 @@ void IncidentMatrix::dijkstra(int start)
     {
         cout << pred[i] << "; ";
     }
+
+    delete[] pred;
+    delete[] dist;
+    delete[] checked;
 }
 
+/// Algorytm Ford-Bellmana
+/// Rozwiazuje problem najkrotszej sciezki
 void IncidentMatrix::fordBellman(int start)
 {
     int maxint = INT_MAX;
@@ -319,14 +345,18 @@ void IncidentMatrix::fordBellman(int start)
     bool jestCykl = false;
     int* pred = new int[iloscWierzcholkow];
     int* dist = new int[iloscWierzcholkow];
+
+    /// Ustawienie wartosci poczatkowych
     for(int i = 0; i< iloscWierzcholkow; i++)
     {
         pred[i] = -1;
         dist[i] = INT_MAX;
     }
 
+    /// dystans do wierzcholka startowego = 0 => jestesmy w nim
     dist[start] = 0;
 
+    /// Petla wyszukujaca wierzcholki
     for(int i = 1; i < iloscWierzcholkow; i++)  // n-1 przejsc
     {
         zmieniony = true;
@@ -339,11 +369,11 @@ void IncidentMatrix::fordBellman(int start)
                 {
                     if(dist[j] != INT_MAX)
                     {
-                        // zmiana w tablicy
+                        /// zmiana w tablicy
                         zmieniony = false;
-                        // wpisujemy koszt przejscia
+                        /// wpisujemy koszt przejscia
                         dist[macierzPomocnicza[x][1]] = dist[j] + macierzPomocnicza[x][2];
-                        // poprzednikiem sasiada bedzie wierzcholek j
+                        /// poprzednikiem sasiada bedzie wierzcholek j
                         pred[macierzPomocnicza[x][1]] = j;
                     }
                 }
@@ -358,6 +388,7 @@ void IncidentMatrix::fordBellman(int start)
         if(maxint == 0)
             break;
     }
+
     cout << "Wierzcholki ich poprzednicy i koszt dojscia..." <<endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
@@ -387,12 +418,15 @@ void IncidentMatrix::fordBellman(int start)
     delete[] dist;
 }
 
+/// Algorytm Kruskala
+/// Rozwiazuje problem minimalnego drzewa
 bool IncidentMatrix::KruskalMST()
 {
     int p = 0;
     int k = 0;
     int w = 0;
-    // Sortowanie
+
+    /// Sortowanie
     for(int j = 0; j<iloscKrawedzi; j++)
     {
         for(int i = j; i < iloscKrawedzi; i++)
@@ -411,15 +445,8 @@ bool IncidentMatrix::KruskalMST()
             }
         }
     }
-    /*
-        cout << "Drukuje macierz..." << endl << endl;
-        for(int i = 0; i < iloscKrawedzi; i ++)
-        {
-            for ( int j = 0; j < 3; j++)
-                cout << " " << macierzPomocnicza[i][j];
-            cout << endl;
-        }*/
 
+    /// Lista przechowujaca krawedzie grafu
     Lista test;
     for(int i = 0; i < iloscKrawedzi; i++)
     {
@@ -427,6 +454,8 @@ bool IncidentMatrix::KruskalMST()
         test.dodajNaKoniec(k);
     }
 
+    /// Pomocny zestaw zbiorow rozlacznych
+    /// Zaimplementowany w celu sprawdzania, czy nie wystapily gdzies cykle
     Disjoint_Union disUnion(iloscWierzcholkow);
 
     Lista drzewo;
@@ -434,6 +463,10 @@ bool IncidentMatrix::KruskalMST()
     for(int i = 0; i < iloscWierzcholkow; i++)
         disUnion.makeSet(i);
 
+    /// Petla algorytmu
+    /// Jedno wykoanie petli, to jedna dodana krawedz
+    /// Przechodzi po wszyskich krawedziach od najmnniejszego do najwiekszego kosztu
+    /// Jesli krawedz nie utworzy cyklu jest dodawana do drzewa
     for(int i = 1; i < iloscWierzcholkow; i++)
     {
         Krawedz* k = new Krawedz;
@@ -443,7 +476,6 @@ bool IncidentMatrix::KruskalMST()
         {
             if(iter == NULL)
             {
-                cout << "Nie da się utworzyć MST"<<endl;
                 return false;
             }
             *k = *iter;
@@ -453,25 +485,25 @@ bool IncidentMatrix::KruskalMST()
         while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
         drzewo.dodajNaKoniec(k);
         disUnion.unionSets(*k);
-        cout << "Co jest?" << endl;
-        for(int j = 0; j<iloscWierzcholkow; j++)
-        {
-            cout << "DisUnion -> up = " << disUnion.z[j].up << "; rank = " << disUnion.z[j].rank << endl;
-        }
     }
-
     cout << "Minimalne drzewo rozpinające:"<<endl;
     drzewo.wydrukujListe();
     return true;
 }
 
+/// Algorytm Prima
+/// Problem minimalnego drzewa rozpinajacego
 bool IncidentMatrix::primMST(int start)
 {
+    /// Tablica wierzcholkow odwiedzonych przez algorytm
     bool* odwiedzone = new bool[iloscWierzcholkow] ;
     int licznikTrue = 1;
 
+    /// Pomocny zestaw zbiorow rozlacznych
+    /// Zaimplementowany w celu sprawdzania, czy nie wystapily gdzies cykle
     Disjoint_Union disUnion(iloscWierzcholkow);
 
+    /// Wskaznik na zbior do przekazywania do funkcji
     Disjoint_Union* wskDisUnion = &disUnion;
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
@@ -484,42 +516,46 @@ bool IncidentMatrix::primMST(int start)
     odwiedzone[start] = true;
     Lista drzewo;
 
+    /// Petla algorytmu
+    /// Wywoluje funkcje zwracajaca nastepna krawedz i dodaje ja do drzewa
+    /// Jesli zwrocona krawedz ma granice maksymalna najpewniej graf rozlaczny
+    /// Nalezy przerwac wykonywanie algorytmu
     while(licznikTrue!=iloscWierzcholkow)
     {
-        for(int i = 0; i < iloscWierzcholkow; i++)
-        {
-            cout << "up = " << disUnion.z[i].up << " ; " << disUnion.z[i].rank << endl;
-        }
         Krawedz* k = nastepnaKrawedz(odwiedzone, wskDisUnion);
+        if(k->waga == INT_MAX)
+            return false;
         licznikTrue++;
-        cout << "k = " << *k << endl;
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
     }
+
     drzewo.wydrukujListe();
+
     if(drzewo.rozmiar<iloscWierzcholkow-1)
         cout << "Nie da sie utworzyc MST."<<endl;
+
     delete wskDisUnion;
     delete[] odwiedzone;
-    return false;
+    return true;
 }
 
 Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUnion)
 {
     Lista krawedzie;
 
-    // Wyselekcjonowanie krawedzi do ktorych naleza wierzcholki drzewa
+    /// Wyselekcjonowanie krawedzi do ktorych naleza wierzcholki drzewa
     for(int i = 0; i<iloscWierzcholkow; i++)
     {
-        // Sprawdzenie, ktora krawedz nalezy do drzewa
+        /// Sprawdzenie, ktora krawedz nalezy do drzewa
         if(odwiedzone[i] == true)
         {
-            // Znalezienie indeksow krawedzi wierzcholka
+            /// Znalezienie indeksow krawedzi wierzcholka
             for(int j = 0; j < iloscKrawedzi; j++)
             {
                 if(macierz[i][j] == 1)
                 {
-                    // Znalezienie indeksu wierzcholka sasiadujacego
+                    /// Znalezienie indeksu wierzcholka sasiadujacego
                     for(int z = 0; z < iloscWierzcholkow; z++)
                     {
                         if(macierz[z][j]==-1)
@@ -531,7 +567,7 @@ Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUn
                 }
                 if(macierz[i][j] == -1)
                 {
-                    // Znalezienie indeksu wierzcholka sasiadujacego
+                    /// Znalezienie indeksu wierzcholka sasiadujacego
                     for(int z = 0; z < iloscWierzcholkow; z++)
                     {
                         if(macierz[z][j]==1)
@@ -544,9 +580,6 @@ Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUn
             }
         }
     }
-    cout << "Przed DisUnion..."<<endl;
-    for(int i = 0; i<krawedzie.rozmiar; i++)
-        cout << "Krawedz ["<<i<<"] = " << *krawedzie.zwrocElement(i) << endl;
 
     for(int i = 0; i<krawedzie.rozmiar;)
     {
@@ -558,19 +591,16 @@ Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUn
         }
         i++;
     }
-        //krawedzie.wydrukujListe();
-    Krawedz* zwracana = new Krawedz(-1,-1,INT_MAX);
 
-    cout << "Przed Wagami..."<<endl;
-    for(int i = 0; i<krawedzie.rozmiar; i++)
-        cout << "Krawedz ["<<i<<"] = " << *krawedzie.zwrocElement(i) << endl;
+    Krawedz* zwracana = new Krawedz(-1,-1,INT_MAX);
 
     for(int i = 0; i < krawedzie.rozmiar; i++)
         if(zwracana->waga > krawedzie.zwrocElement(i)->waga)
         {
             zwracana = krawedzie.zwrocElement(i);
         }
-        cout << "Zwracana = " << *zwracana << endl;
+    if(zwracana->waga == INT_MAX)
+        return zwracana;
     odwiedzone[zwracana->wierzcholekkoncowy] = true;
     odwiedzone[zwracana->wierzcholekPoczatkowy] = true;
     Krawedz* k = new Krawedz;
@@ -580,7 +610,50 @@ Krawedz* IncidentMatrix::nastepnaKrawedz(bool* odwiedzone, Disjoint_Union* disUn
     return k;
 }
 
-void IncidentMatrix::stworzLosowaMacierz(int ilW; int ilK)
+void IncidentMatrix::stworzLosowaMacierz(int ilW, int ilK)
 {
+    if(ilW == 0)
+        return;
+    srand(time(NULL));
+    /// Usuwam poprzednie macierze
+    if(macierz!=NULL)
+        delete[] macierz;
+    if(macierzPomocnicza!=NULL)
+        delete[] macierzPomocnicza;
 
+    iloscKrawedzi = ilK;
+    iloscWierzcholkow = ilW;
+
+    // Wypelnienie losowymi wartosciami macierz
+    macierz = new int*[iloscWierzcholkow];
+    tablicaWag = new int[iloscKrawedzi];
+
+    /// Tworzenie wierszy macierzy
+    for(int i =0; i<iloscWierzcholkow; i++)
+        macierz[i] = new int[iloscKrawedzi];
+
+    /// Wype³nienie macierzy zerami
+    for(int i = 0; i<iloscWierzcholkow; i++)
+        for(int j = 0; j<iloscKrawedzi; j++)
+            macierz[i][j] = 0;
+
+    /// Odczytanie krawedzi i zapisanie do macierzy
+    /// Poczatek - Koniec - Waga
+    macierzPomocnicza = new int*[iloscKrawedzi];
+    for(int i = 0; i < iloscKrawedzi; i++)
+    {
+        macierzPomocnicza[i] = new int[3];
+    }
+    for(int i = 0; i < iloscKrawedzi; i++)
+    {
+        int wPocz = rand()%iloscWierzcholkow;
+        int wKon = rand()%iloscWierzcholkow;
+        int wagaK = rand()%10;
+        macierz[wPocz][i] = 1;
+        macierz[wKon][i] = -1;
+        tablicaWag[i] = wagaK;
+        macierzPomocnicza[i][0] = wPocz;
+        macierzPomocnicza[i][1] = wKon;
+        macierzPomocnicza[i][2] = wagaK;
+    }
 }

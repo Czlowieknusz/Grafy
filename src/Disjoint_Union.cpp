@@ -13,7 +13,7 @@ Disjoint_Union::~Disjoint_Union()
 void Disjoint_Union::makeSet(int n)
 {
     z[n].up = n;
-    z[n].rank = 0;
+    z[n].wRank = 0;
 }
 
 int Disjoint_Union::findSet(int v)
@@ -32,13 +32,13 @@ void Disjoint_Union::unionSets(Krawedz k)
 
     if(ru != rv)
     {
-        if(z[ru].rank > z[rv].rank)
+        if(z[ru].wRank > z[rv].wRank)
             z[rv].up = ru;
         else
         {
             z[ru].up = rv;
-            if(z[ru].rank == z[rv].rank)
-                z[rv].rank += 1;
+            if(z[ru].wRank == z[rv].wRank)
+                z[rv].wRank += 1;
         }
     }
 }

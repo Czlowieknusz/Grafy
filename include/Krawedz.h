@@ -15,6 +15,7 @@ class Krawedz
         Krawedz* nastepna,* poprzednia;
 
         Krawedz();
+        Krawedz(const Krawedz&);
         Krawedz(short pocz, short kon, int w, bool d = 0);
         ~Krawedz();
 

@@ -7,7 +7,7 @@
 class Wierzcholek
 {
 public:
-    int up, rank;
+    int up, wRank;
 };
 
 class Disjoint_Union

@@ -3,7 +3,6 @@
 #include "NeighbourList.h"
 #include <iostream>
 #include <cstdlib>
-#include "Dane.h"
 #include "Testy.h"
 
 using namespace std;
@@ -25,7 +24,6 @@ void Menu::AskForOption() {
 			cout << "Opcje reprezentacji grafu: \n";
 			cout << "1. Macierz indykacji.\n";
 			cout << "2. Lista nastepnikow.\n";
-			cout << "5. Wygeneruj nowe dane. \n";
 			cout << "9. Rozpocznij testy.\n";
 			cout << "Aby wyjsc wpisz cokolwiek innego. \n";
 			cin >> opcja;
@@ -42,27 +40,15 @@ void Menu::AskForOption() {
 			}
 			case 2://Lista
 			{
-				NeighbourList lis(0);
+				NeighbourList lis;
 				lis.menu();
-				break;
-			}
-
-			case 5://Stworzmy inne dane
-			{
-				Dane data;
-				cout << "Ile wierzcholkow ma byc w grafie?\n";
-				cin >> data.iloscWierzcholkow;
-				cin.ignore();
-				cout << "Ile krawedzi ma byc w grafie?\n";
-				cin >> data.iloscKrawedzi;
-				data.stworzDane();
 				break;
 			}
             case 9:
             {
                 Testy test;
                 cout << "Rozpoczynam testy..."<<endl;
-                test.dijkstraMatrix();
+                test.testyMatrix();
                 break;
             }
 			default:

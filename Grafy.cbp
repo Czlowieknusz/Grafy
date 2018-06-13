@@ -34,6 +34,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Czas.h" />
 		<Unit filename="include/Dane.h" />
 		<Unit filename="include/Disjoint_Union.h" />
 		<Unit filename="include/IncidentMatrix.h" />
@@ -46,6 +47,7 @@
 		<Unit filename="include/lista.h" />
 		<Unit filename="include/listaInt.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Czas.cpp" />
 		<Unit filename="src/Dane.cpp" />
 		<Unit filename="src/Disjoint_Union.cpp" />
 		<Unit filename="src/IncidentMatrix.cpp" />
