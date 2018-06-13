@@ -308,12 +308,17 @@ void NeighbourList::dijkstra(int start)
     cout << "Wierzcholki ich poprzednicy i koszt dojscia..." <<endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << dist[i] << "; ";
+        cout <<" [" << i << "] ";
     }
     cout << endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << pred[i] << "; ";
+        cout <<setw(3) << dist[i] << "; ";
+    }
+    cout << endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
+    {
+        cout <<setw(3) << pred[i] << "; ";
     }
     cout << endl;
 
@@ -394,12 +399,17 @@ void NeighbourList::fordBellman(int start)
     cout << "Wierzcholki ich poprzednicy i koszt dojscia..." <<endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << dist[i] << "; ";
+        cout <<" [" << i << "] ";
     }
     cout << endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << pred[i] << "; ";
+        cout <<setw(3) << dist[i] << "; ";
+    }
+    cout << endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
+    {
+        cout <<setw(3) << pred[i] << "; ";
     }
     cout << endl;
 
@@ -466,7 +476,8 @@ bool NeighbourList::KruskalMST()
         disUnion.unionSets(*k);
     }
     cout << "Minimalne drzewo rozpinajace..." << endl;
-    drzewo.wydrukujListe();
+    drukujKrawedzie(drzewo);
+    //drzewo.wydrukujListe();
     return true;
 }
 
@@ -499,7 +510,8 @@ bool NeighbourList::PrimMST(int start)
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
     }
-    drzewo.wydrukujListe();
+    drukujKrawedzie(drzewo);
+        //drzewo.wydrukujListe();
     delete wskDisUnion;
     delete[] odwiedzone;
     return false;
@@ -595,4 +607,10 @@ void NeighbourList::losowaListaSasiedztw(int ilW, int ilK, int skier)
             tablicaKrawedzi[wKon].dodajNaKoniec(k2);
         }
     }
+}
+
+void NeighbourList::drukujKrawedzie(Lista& krawedzie)
+{
+    for(int i = 0; i < krawedzie.rozmiar; i++)
+        cout << "[" << i << "]" << *krawedzie.zwrocElement(i) << endl;
 }

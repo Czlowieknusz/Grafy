@@ -31,6 +31,9 @@ IncidentMatrix::~IncidentMatrix()
 
 void IncidentMatrix::drukujMacierz()
 {
+    cout << "Wagi:";
+    for(int j = 0; j < iloscKrawedzi; j++)
+        cout << setw(3) << tablicaWag[j];
     cout << endl;
     cout << setw(5) << " ";
     for(int j = 0; j< iloscKrawedzi; j++)
@@ -320,16 +323,22 @@ void IncidentMatrix::dijkstra(int start)
     }
 
     /// Drukowanie wynikow
-    cout << endl<< "Wierzchołki, ich poprzednicy i koszta dojścia:" << endl;
-    for(int i = 0; i < iloscWierzcholkow; i++)
+    cout << "Wierzcholki ich poprzednicy i koszt dojscia..." <<endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << dist[i] << "; ";
+        cout <<" [" << i << "] ";
     }
-    cout<<endl;
-    for(int i = 0; i < iloscWierzcholkow; i++)
+    cout << endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << pred[i] << "; ";
+        cout <<setw(3) << dist[i] << "; ";
     }
+    cout << endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
+    {
+        cout <<setw(3) << pred[i] << "; ";
+    }
+    cout << endl;
 
     delete[] pred;
     delete[] dist;
@@ -392,12 +401,17 @@ void IncidentMatrix::fordBellman(int start)
     cout << "Wierzcholki ich poprzednicy i koszt dojscia..." <<endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << dist[i] << "; ";
+        cout <<" [" << i << "] ";
     }
     cout << endl;
     for(int i =0; i<iloscWierzcholkow; i++)
     {
-        cout << pred[i] << "; ";
+        cout <<setw(3) << dist[i] << "; ";
+    }
+    cout << endl;
+    for(int i =0; i<iloscWierzcholkow; i++)
+    {
+        cout <<setw(3) << pred[i] << "; ";
     }
     cout << endl;
 

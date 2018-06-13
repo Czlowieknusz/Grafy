@@ -14,7 +14,7 @@
 	<list>
 	"IncidentMatrix.h"
 
-1528928597 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528934366 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
@@ -34,7 +34,7 @@
 	"Krawedz.h"
 	"lista.h"
 
-1528931630 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528934109 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"lista.h"
 	"NeighbourList.h"
 	"Krawedz.h"
@@ -50,7 +50,7 @@
 	<stddef.h>
 	<algorithm>
 
-1528731918 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
+1528933292 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
 	"Krawedz.h"
 	"lista.h"
 	"Disjoint_Union.h"
@@ -129,9 +129,8 @@
 	"IncidentMatrix.h"
 	"NeighbourList.h"
 
-1528841263 source:q:\studia\sdizo\projektpierwszy\grafy\src\testy.cpp
+1528933396 source:q:\studia\sdizo\projektpierwszy\grafy\src\testy.cpp
 	"Testy.h"
-	"grafGenerator.h"
 	"Czas.h"
 
 1528651820 q:\studia\sdizo\projektpierwszy\grafy\include\grafgenerator.h

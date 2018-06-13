@@ -1,5 +1,4 @@
 #include "Testy.h"
-#include "grafGenerator.h"
 #include "Czas.h"
 
 using namespace std;

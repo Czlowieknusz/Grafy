@@ -23,6 +23,7 @@ class NeighbourList
         void fordBellman(int);
         void dijkstra(int);
         Krawedz* nastepnaKrawedz(bool*, Disjoint_Union*, Lista&);
+        void drukujKrawedzie(Lista& krawedzie);
 };
 
 #endif // NEIGHBOURLIST_H
