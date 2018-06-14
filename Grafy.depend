@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1528953231 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
+1528954899 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
 	<iostream>
 	"Menu.h"
+	"MainMenu.h"
 
 1528215167 source:q:\studia\sdizo\projektpierwszy\grafy\src\dijkstra.cpp
 	<vector>
@@ -14,7 +15,7 @@
 	<list>
 	"IncidentMatrix.h"
 
-1528953576 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528957045 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
@@ -34,7 +35,7 @@
 	"Krawedz.h"
 	"lista.h"
 
-1528934109 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
+1528957485 source:q:\studia\sdizo\projektpierwszy\grafy\src\neighbourlist.cpp
 	"lista.h"
 	"NeighbourList.h"
 	"Krawedz.h"
@@ -70,7 +71,9 @@
 1528214829 q:\studia\sdizo\projektpierwszy\grafy\include\ford-bellman.h
 	"IncidentMatrix.h"
 
-1528214963 q:\studia\sdizo\projektpierwszy\grafy\include\menu.h
+1528955570 q:\studia\sdizo\projektpierwszy\grafy\include\menu.h
+	"IncidentMatrix.h"
+	"NeighbourList.h"
 
 1528214811 source:q:\studia\sdizo\projektpierwszy\grafy\src\dane.cpp
 	"Dane.h"
@@ -81,7 +84,7 @@
 
 1528213531 q:\studia\sdizo\projektpierwszy\grafy\include\dane.h
 
-1528953531 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
+1528956228 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
 	"Menu.h"
 	"IncidentMatrix.h"
 	"NeighbourList.h"
@@ -153,4 +156,17 @@
 	<windows.h>
 	<iostream>
 	<inttypes.h>
+
+1528957747 source:q:\studia\sdizo\projektpierwszy\grafy\src\mainmenu.cpp
+	"MainMenu.h"
+	"Menu.h"
+	"IncidentMatrix.h"
+	"NeighbourList.h"
+	<iostream>
+	<cstdlib>
+	"Testy.h"
+
+1528954789 q:\studia\sdizo\projektpierwszy\grafy\include\mainmenu.h
+	"IncidentMatrix.h"
+	"NeighbourList.h"
 

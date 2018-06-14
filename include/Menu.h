@@ -1,6 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "IncidentMatrix.h"
+#include "NeighbourList.h"
 
 class Menu
 {
@@ -9,7 +11,7 @@ class Menu
         ~Menu();
         int opcja;
 
-        void AskForOption();
+        void AskForOption(IncidentMatrix&, NeighbourList&, NeighbourList&);
 };
 
 #endif // MENU_H

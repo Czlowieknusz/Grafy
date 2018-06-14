@@ -9,7 +9,7 @@ using namespace std;
 
 Menu::Menu()
 {
-    cout << "========== MENU PROGRAMU ==========" <<endl;
+    cout << "\n========== MENU STRUKTUR ==========" <<endl;
     opcja = 0;
 }
 
@@ -18,13 +18,14 @@ Menu::~Menu()
     //dtor
 }
 
-void Menu::AskForOption() {
+void Menu::AskForOption(IncidentMatrix& iM, NeighbourList& nLSkier, NeighbourList& nLNieSkier) {
 		while (true) {//Nasze glowne menu
-			cout << "Witaj w programie.\n";
+			cout << "\nWitaj w programie.\n";
 			cout << "Wpisz numer polecenia: \n";
 			cout << "Opcje reprezentacji grafu: \n";
 			cout << "1. Macierz indykacji.\n";
-			cout << "2. Lista nastepnikow.\n";
+			cout << "2. Lista nastepnikow skierowana.\n";
+			cout << "3. Lista nastepnikow nie skierowana.\n";
 			cout << "9. Rozpocznij testy.\n";
 			cout << "Aby wyjsc wpisz cokolwiek innego. \n";
 			cin >> opcja;
@@ -36,16 +37,17 @@ void Menu::AskForOption() {
 			switch (opcja) {
 			case 1://Macierz
 			{
-				IncidentMatrix matrix;
-				matrix.menu();
-				break;
+                iM.menu();
+                break;
 			}
 			case 2://Lista
 			{
-				NeighbourList lis;
-				lis.menu();
+				nLSkier.menu();
 				break;
 			}
+			case 3:
+			    nLNieSkier.menu();
+                break;
             case 9:
             {
                 Testy test;

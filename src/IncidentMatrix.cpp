@@ -120,7 +120,7 @@ void IncidentMatrix::menu()
     {
         if (exit == 1)
             break;
-        cout << "Co chcesz zrobic?\n";
+        cout << "\nCo chcesz zrobic?\n";
         cout << "1. Wczytaj dane z pliku. \n";
         cout << "2. Wygeneruj dane losowo. \n";
         cout << "3. Algorytm Prima. \n";
@@ -415,6 +415,7 @@ void IncidentMatrix::fordBellman(int start)
     }
     cout << endl;
 
+
     for(int i = 0; i < iloscWierzcholkow; i++)
     {
         for(int x = 0; x < iloscKrawedzi; x++)
@@ -436,6 +437,7 @@ void IncidentMatrix::fordBellman(int start)
 /// Rozwiazuje problem minimalnego drzewa
 bool IncidentMatrix::KruskalMST()
 {
+    int sumaWag = 0;
     int p = 0;
     int k = 0;
     int w = 0;
@@ -499,9 +501,11 @@ bool IncidentMatrix::KruskalMST()
         while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
         drzewo.dodajNaKoniec(k);
         disUnion.unionSets(*k);
+        sumaWag+=k->waga;
     }
     cout << "Minimalne drzewo rozpinające:"<<endl;
     drukujKrawedzie(drzewo);
+    cout << "Suma wag krawedzi = " << sumaWag << endl;
 //    drzewo.wydrukujListe();
     return true;
 }
@@ -510,6 +514,7 @@ bool IncidentMatrix::KruskalMST()
 /// Problem minimalnego drzewa rozpinajacego
 bool IncidentMatrix::primMST(int start)
 {
+    int sumaWag = 0;
     /// Tablica wierzcholkow odwiedzonych przez algorytm
     bool* odwiedzone = new bool[iloscWierzcholkow] ;
     int licznikTrue = 1;
@@ -543,8 +548,10 @@ bool IncidentMatrix::primMST(int start)
         licznikTrue++;
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
+        sumaWag+=k->waga;
     }
     drukujKrawedzie(drzewo);
+    cout << endl << "Suma wag krawedzi = " << sumaWag << endl;
 // drzewo.wydrukujListe();
 
     if(drzewo.rozmiar<iloscWierzcholkow-1)

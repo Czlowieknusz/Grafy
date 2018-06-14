@@ -118,7 +118,7 @@ void NeighbourList::menu()
     {
         if (exit == 1)
             break;
-        cout << "Co chcesz zrobic?\n";
+        cout << "\nCo chcesz zrobic?\n";
         cout << "1. Wczytaj dane z pliku. \n";
         cout << "2. Wygeneruj dane losowo. \n";
         cout << "3. Algorytm Prima. \n";
@@ -161,7 +161,7 @@ void NeighbourList::menu()
         case 3:
         {
             cout << endl;
-            if (tablicaKrawedzi == NULL || tablicaKrawedzi->rozmiar == 0)
+            if (tablicaKrawedzi == NULL)
             {
                 cout << "Macierz jest pusta! \n";
                 cout << "Wczytaj dane do amcierzy!\n";
@@ -171,7 +171,7 @@ void NeighbourList::menu()
             cout << "Podaj wierzcholek startowy: ";
             cin >> wierszStart;
             cout << endl;
-            if (liczba < 0 || liczba >= iloscWierzcholkow)
+            if (wierszStart < 0 || wierszStart >= iloscWierzcholkow)
             {
                 cout << "Niepoprawny wierzcholek!\n";
             }
@@ -434,6 +434,7 @@ void NeighbourList::fordBellman(int start)
 
 bool NeighbourList::KruskalMST()
 {
+    int sumaWag = 0;
     Lista drzewo, posortowane;
     Disjoint_Union disUnion(iloscWierzcholkow);
 
@@ -474,15 +475,18 @@ bool NeighbourList::KruskalMST()
         while(disUnion.findSet(k->wierzcholekPoczatkowy) == disUnion.findSet(k->wierzcholekkoncowy));
         drzewo.dodajNaKoniec(k);
         disUnion.unionSets(*k);
+        sumaWag += k->waga;
     }
     cout << "Minimalne drzewo rozpinajace..." << endl;
     drukujKrawedzie(drzewo);
+    cout << endl << "Suma wag krawedzi = " << sumaWag << endl;
     //drzewo.wydrukujListe();
     return true;
 }
 
 bool NeighbourList::PrimMST(int start)
 {
+    int sumaWag = 0;
     Lista drzewo;
     bool* odwiedzone = new bool[iloscWierzcholkow];
     int licznikTrue = 1;
@@ -509,8 +513,11 @@ bool NeighbourList::PrimMST(int start)
         licznikTrue++;
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
+        sumaWag += k->waga;
     }
+    cout << "Minimalne drzewo rozpinajace" << endl;
     drukujKrawedzie(drzewo);
+    cout << "Suma wag krawedzi = " << sumaWag << endl;
         //drzewo.wydrukujListe();
     delete wskDisUnion;
     delete[] odwiedzone;
