@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1528214581 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
+1528953231 source:q:\studia\sdizo\projektpierwszy\grafy\main.cpp
 	<iostream>
 	"Menu.h"
 
@@ -14,7 +14,7 @@
 	<list>
 	"IncidentMatrix.h"
 
-1528934366 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
+1528953576 source:q:\studia\sdizo\projektpierwszy\grafy\src\incidentmatrix.cpp
 	"IncidentMatrix.h"
 	<iostream>
 	<fstream>
@@ -28,7 +28,7 @@
 	"lista.h"
 	"listaInt.h"
 
-1528646504 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
+1528953576 q:\studia\sdizo\projektpierwszy\grafy\include\incidentmatrix.h
 	<fstream>
 	"Disjoint_Union.h"
 	"Krawedz.h"
@@ -50,7 +50,7 @@
 	<stddef.h>
 	<algorithm>
 
-1528933292 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
+1528953560 q:\studia\sdizo\projektpierwszy\grafy\include\neighbourlist.h
 	"Krawedz.h"
 	"lista.h"
 	"Disjoint_Union.h"
@@ -81,7 +81,7 @@
 
 1528213531 q:\studia\sdizo\projektpierwszy\grafy\include\dane.h
 
-1528929051 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
+1528953531 source:q:\studia\sdizo\projektpierwszy\grafy\src\menu.cpp
 	"Menu.h"
 	"IncidentMatrix.h"
 	"NeighbourList.h"

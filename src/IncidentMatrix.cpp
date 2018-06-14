@@ -501,7 +501,8 @@ bool IncidentMatrix::KruskalMST()
         disUnion.unionSets(*k);
     }
     cout << "Minimalne drzewo rozpinające:"<<endl;
-    drzewo.wydrukujListe();
+    drukujKrawedzie(drzewo);
+//    drzewo.wydrukujListe();
     return true;
 }
 
@@ -543,8 +544,8 @@ bool IncidentMatrix::primMST(int start)
         drzewo.dodajNaKoniec(k);
         wskDisUnion->unionSets(*k);
     }
-
-    drzewo.wydrukujListe();
+    drukujKrawedzie(drzewo);
+// drzewo.wydrukujListe();
 
     if(drzewo.rozmiar<iloscWierzcholkow-1)
         cout << "Nie da sie utworzyc MST."<<endl;
@@ -670,4 +671,10 @@ void IncidentMatrix::stworzLosowaMacierz(int ilW, int ilK)
         macierzPomocnicza[i][1] = wKon;
         macierzPomocnicza[i][2] = wagaK;
     }
+}
+
+void IncidentMatrix::drukujKrawedzie(Lista& krawedzie)
+{
+    for(int i = 0; i < krawedzie.rozmiar; i++)
+        cout << "[" << i << "]" << *krawedzie.zwrocElement(i) << endl;
 }

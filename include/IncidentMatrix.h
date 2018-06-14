@@ -30,6 +30,7 @@ class IncidentMatrix
         void fordBellman(int);  // alg. Forda-Bellmana
         void stworzLosowaMacierz();        // Tworzy losowy graf
         void stworzLosowaMacierz(int, int);    // tworzy losowy graf
+        void drukujKrawedzie(Lista& krawedzie);
 };
 
 #endif // INCIDENTMATRIX_H

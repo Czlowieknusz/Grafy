@@ -9,6 +9,7 @@ using namespace std;
 
 Menu::Menu()
 {
+    cout << "========== MENU PROGRAMU ==========" <<endl;
     opcja = 0;
 }
 
@@ -27,7 +28,8 @@ void Menu::AskForOption() {
 			cout << "9. Rozpocznij testy.\n";
 			cout << "Aby wyjsc wpisz cokolwiek innego. \n";
 			cin >> opcja;
-			if (!cin) {
+			if (!cin)
+            {
 				cin.clear();
 				cin.ignore();
 			}
